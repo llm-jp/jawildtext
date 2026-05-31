@@ -1,0 +1,23 @@
+.env
+.env.*
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+.venv-*/
+
+# Local/generated artifacts that must not be part of the release bundle.
+tmp/
+temp/
+output/
+logs/
+log/
+*.log
+*.o[0-9]*
+*.e[0-9]*
+
+# Keep aggregate result artifacts, but do not accidentally publish raw dumps.
+results/predictions/
+results/logs/
+*.jsonl
+
