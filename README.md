@@ -12,10 +12,13 @@ This repository is the release bundle for evaluation documentation, prompts, res
 
 - `docs/evaluation.md`: task definitions, prompts, and scoring protocol.
 - `docs/results.md`: benchmark result summary and provenance notes.
+- `docs/extended_results.md`: extended leaderboard and model-family summary.
 - `docs/result_schema.md`: expected aggregate result schema.
 - `results/main_results.md`: main benchmark table.
 - `results/main_results.json`: machine-readable main benchmark table.
 - `results/receipt_kie_fields.md`: Receipt KIE field-level table.
+- `results/extended_leaderboard_gptoss.md`: extended aggregate table with Dense STVQA re-judged by `gpt-oss-20b`.
+- `results/family_summary_gptoss.md`: model-family aggregate summary.
 
 ## Dataset
 
@@ -58,4 +61,3 @@ Aggregate result tables and documented prompts are allowed.
 ## License
 
 This repository is released under the Apache License 2.0. The dataset page also records the dataset license and usage notes.
-

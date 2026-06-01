@@ -1,0 +1,380 @@
+{
+  "generated_at": "2026-06-01T00:56:56+00:00",
+  "dataset": "llm-jp/jawildtext",
+  "dense_stvqa_judge": {
+    "judge_model": "openai/gpt-oss-20b",
+    "reasoning_effort": "low"
+  },
+  "families": [
+    {
+      "family": "Closed",
+      "models": 3,
+      "dense_stvqa_gptoss": {
+        "models": 3,
+        "average": 0.71869918699187,
+        "best": 0.8887804878048781,
+        "best_model": "google/gemini-3-flash-preview"
+      },
+      "handwriting_ocr": {
+        "models": 3,
+        "average": 0.7393555544924504,
+        "best": 0.7720859952645102,
+        "best_model": "google/gemini-3-flash-preview"
+      },
+      "receipt_kie": {
+        "models": 3,
+        "average": 0.6204241084665117,
+        "best": 0.6670150301801182,
+        "best_model": "google/gemini-3-flash-preview"
+      },
+      "mean_available_score": 0.692826283316944
+    },
+    {
+      "family": "Qwen2.5-VL",
+      "models": 4,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 4,
+        "average": 0.7249088832899921,
+        "best": 0.7721505187230832,
+        "best_model": "Qwen/Qwen2.5-VL-72B-Instruct"
+      },
+      "receipt_kie": {
+        "models": 4,
+        "average": 0.3813765664457098,
+        "best": 0.40505250985601626,
+        "best_model": "Qwen/Qwen2.5-VL-7B-Instruct"
+      },
+      "mean_available_score": 0.553142724867851
+    },
+    {
+      "family": "Qwen3-VL",
+      "models": 5,
+      "dense_stvqa_gptoss": {
+        "models": 3,
+        "average": 0.534959349593496,
+        "best": 0.6653658536585366,
+        "best_model": "Qwen/Qwen3-VL-8B-Instruct"
+      },
+      "handwriting_ocr": {
+        "models": 5,
+        "average": 0.7606668854810429,
+        "best": 0.7723212341886627,
+        "best_model": "Qwen/Qwen3-VL-32B-Instruct"
+      },
+      "receipt_kie": {
+        "models": 5,
+        "average": 0.33411743969700314,
+        "best": 0.3970143604061735,
+        "best_model": "Qwen/Qwen3-VL-32B-Instruct"
+      },
+      "mean_available_score": 0.5445230518977475
+    },
+    {
+      "family": "Qwen2-VL",
+      "models": 3,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 3,
+        "average": 0.7094285920346861,
+        "best": 0.7429668276358293,
+        "best_model": "Qwen/Qwen2-VL-72B-Instruct"
+      },
+      "receipt_kie": {
+        "models": 3,
+        "average": 0.3749879123273983,
+        "best": 0.41992405540786554,
+        "best_model": "Qwen/Qwen2-VL-72B-Instruct"
+      },
+      "mean_available_score": 0.5422082521810422
+    },
+    {
+      "family": "InternVL3",
+      "models": 6,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 6,
+        "average": 0.6693822866719655,
+        "best": 0.7065631150095308,
+        "best_model": "OpenGVLab/InternVL3-8B"
+      },
+      "receipt_kie": {
+        "models": 6,
+        "average": 0.33219006955596303,
+        "best": 0.3817462362611015,
+        "best_model": "OpenGVLab/InternVL3-38B"
+      },
+      "mean_available_score": 0.5007861781139643
+    },
+    {
+      "family": "Ovis2",
+      "models": 6,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 6,
+        "average": 0.6227434489031395,
+        "best": 0.6966624088493865,
+        "best_model": "AIDC-AI/Ovis2-4B"
+      },
+      "receipt_kie": {
+        "models": 6,
+        "average": 0.3328953567869724,
+        "best": 0.37865696024788387,
+        "best_model": "AIDC-AI/Ovis2-4B"
+      },
+      "mean_available_score": 0.4778194028450559
+    },
+    {
+      "family": "Sarashina2.2",
+      "models": 1,
+      "dense_stvqa_gptoss": {
+        "models": 1,
+        "average": 0.46731707317073173,
+        "best": 0.46731707317073173,
+        "best_model": "sbintuitions/sarashina2.2-vision-3b"
+      },
+      "handwriting_ocr": null,
+      "receipt_kie": null,
+      "mean_available_score": 0.46731707317073173
+    },
+    {
+      "family": "Kimi-VL",
+      "models": 1,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 1,
+        "average": 0.5271721559895907,
+        "best": 0.5271721559895907,
+        "best_model": "moonshotai/Kimi-VL-A3B-Instruct"
+      },
+      "receipt_kie": {
+        "models": 1,
+        "average": 0.40342998059853014,
+        "best": 0.40342998059853014,
+        "best_model": "moonshotai/Kimi-VL-A3B-Instruct"
+      },
+      "mean_available_score": 0.46530106829406037
+    },
+    {
+      "family": "Qwen3.5",
+      "models": 5,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 5,
+        "average": 0.5607710599662403,
+        "best": 0.7571090108474401,
+        "best_model": "Qwen/Qwen3.5-9B"
+      },
+      "receipt_kie": {
+        "models": 5,
+        "average": 0.3642308282747805,
+        "best": 0.4146057214352076,
+        "best_model": "Qwen/Qwen3.5-35B-A3B"
+      },
+      "mean_available_score": 0.4625009441205103
+    },
+    {
+      "family": "MiniCPM",
+      "models": 1,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 1,
+        "average": 0.5646430420230326,
+        "best": 0.5646430420230326,
+        "best_model": "openbmb/MiniCPM-o-2_6"
+      },
+      "receipt_kie": {
+        "models": 1,
+        "average": 0.3270305860480011,
+        "best": 0.3270305860480011,
+        "best_model": "openbmb/MiniCPM-o-2_6"
+      },
+      "mean_available_score": 0.4458368140355169
+    },
+    {
+      "family": "InternVL3.5",
+      "models": 6,
+      "dense_stvqa_gptoss": {
+        "models": 6,
+        "average": 0.31853658536585366,
+        "best": 0.4195121951219512,
+        "best_model": "OpenGVLab/InternVL3_5-8B"
+      },
+      "handwriting_ocr": {
+        "models": 4,
+        "average": 0.6851656764778074,
+        "best": 0.701735606619176,
+        "best_model": "OpenGVLab/InternVL3_5-8B"
+      },
+      "receipt_kie": {
+        "models": 4,
+        "average": 0.3651237288133815,
+        "best": 0.39641496777005664,
+        "best_model": "OpenGVLab/InternVL3_5-8B"
+      },
+      "mean_available_score": 0.4365983666685627
+    },
+    {
+      "family": "Gemma 3",
+      "models": 3,
+      "dense_stvqa_gptoss": {
+        "models": 3,
+        "average": 0.3056910569105691,
+        "best": 0.4029268292682927,
+        "best_model": "google/gemma-3-27b-it"
+      },
+      "handwriting_ocr": {
+        "models": 3,
+        "average": 0.5198573069814603,
+        "best": 0.5815112175260208,
+        "best_model": "google/gemma-3-12b-it"
+      },
+      "receipt_kie": {
+        "models": 3,
+        "average": 0.16838825877631022,
+        "best": 0.21680055987851535,
+        "best_model": "google/gemma-3-12b-it"
+      },
+      "mean_available_score": 0.3313122075561131
+    },
+    {
+      "family": "InternVL2",
+      "models": 2,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 2,
+        "average": 0.13083214460984063,
+        "best": 0.151648467533595,
+        "best_model": "OpenGVLab/InternVL2-8B"
+      },
+      "receipt_kie": {
+        "models": 2,
+        "average": 0.2892099496675654,
+        "best": 0.2917254622235891,
+        "best_model": "OpenGVLab/InternVL2-26B"
+      },
+      "mean_available_score": 0.210021047138703
+    },
+    {
+      "family": "Ovis2.5",
+      "models": 1,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 1,
+        "average": 0.35920973350483293,
+        "best": 0.35920973350483293,
+        "best_model": "AIDC-AI/Ovis2.5-9B"
+      },
+      "receipt_kie": {
+        "models": 1,
+        "average": 0.0,
+        "best": 0.0,
+        "best_model": "AIDC-AI/Ovis2.5-9B"
+      },
+      "mean_available_score": 0.17960486675241646
+    },
+    {
+      "family": "Phi-4",
+      "models": 1,
+      "dense_stvqa_gptoss": {
+        "models": 1,
+        "average": 0.16682926829268294,
+        "best": 0.16682926829268294,
+        "best_model": "microsoft/Phi-4-multimodal-instruct"
+      },
+      "handwriting_ocr": null,
+      "receipt_kie": null,
+      "mean_available_score": 0.16682926829268294
+    },
+    {
+      "family": "Aya Vision",
+      "models": 2,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 2,
+        "average": 0.12648398918617917,
+        "best": 0.15234121730017833,
+        "best_model": "CohereLabs/aya-vision-32b"
+      },
+      "receipt_kie": {
+        "models": 2,
+        "average": 0.13721842936504303,
+        "best": 0.1590009442550184,
+        "best_model": "CohereLabs/aya-vision-32b"
+      },
+      "mean_available_score": 0.1318512092756111
+    },
+    {
+      "family": "Molmo2",
+      "models": 2,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 2,
+        "average": 0.06139031608864153,
+        "best": 0.06212651095751229,
+        "best_model": "allenai/Molmo2-8B"
+      },
+      "receipt_kie": {
+        "models": 2,
+        "average": 0.1875972172771202,
+        "best": 0.20826464910638112,
+        "best_model": "allenai/Molmo2-8B"
+      },
+      "mean_available_score": 0.12449376668288087
+    },
+    {
+      "family": "Pangea",
+      "models": 1,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 1,
+        "average": 0.020855988937566395,
+        "best": 0.020855988937566395,
+        "best_model": "neulab/Pangea-7B-hf"
+      },
+      "receipt_kie": {
+        "models": 1,
+        "average": 0.11489476118548118,
+        "best": 0.11489476118548118,
+        "best_model": "neulab/Pangea-7B-hf"
+      },
+      "mean_available_score": 0.06787537506152379
+    },
+    {
+      "family": "LLaVA 1.5",
+      "models": 2,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 2,
+        "average": 0.04685066326034655,
+        "best": 0.0473331569732579,
+        "best_model": "llava-hf/llava-1.5-13b-hf"
+      },
+      "receipt_kie": {
+        "models": 2,
+        "average": 0.0,
+        "best": 0.0,
+        "best_model": "llava-hf/llava-1.5-13b-hf"
+      },
+      "mean_available_score": 0.023425331630173275
+    },
+    {
+      "family": "LLaVA 1.6",
+      "models": 1,
+      "dense_stvqa_gptoss": null,
+      "handwriting_ocr": {
+        "models": 1,
+        "average": 0.0022150070185027976,
+        "best": 0.0022150070185027976,
+        "best_model": "llava-hf/llava-v1.6-mistral-7b-hf"
+      },
+      "receipt_kie": {
+        "models": 1,
+        "average": 0.0430478816188431,
+        "best": 0.0430478816188431,
+        "best_model": "llava-hf/llava-v1.6-mistral-7b-hf"
+      },
+      "mean_available_score": 0.022631444318672946
+    }
+  ]
+}

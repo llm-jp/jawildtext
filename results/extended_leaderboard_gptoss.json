@@ -1,0 +1,892 @@
+{
+  "generated_at": "2026-06-01T00:56:56+00:00",
+  "dataset": "llm-jp/jawildtext",
+  "dense_stvqa_judge": {
+    "judge_model": "openai/gpt-oss-20b",
+    "reasoning_effort": "low",
+    "source_root": "jawildtext-board-vqa-gptoss"
+  },
+  "tasks": {
+    "dense_stvqa_gptoss": {
+      "root": "jawildtext-board-vqa-gptoss",
+      "metric_key": "jawildtext-board-vqa-gptoss",
+      "label": "Dense STVQA",
+      "short_label": "Dense STVQA",
+      "metric": "accuracy"
+    },
+    "handwriting_ocr": {
+      "root": "jawildtext-handwriting-ocr",
+      "metric_key": "jawildtext-handwriting-ocr",
+      "label": "Handwriting OCR",
+      "short_label": "Handwriting OCR",
+      "metric": "1 - CER"
+    },
+    "receipt_kie": {
+      "root": "jawildtext-receipt-kie",
+      "metric_key": "jawildtext-receipt-kie",
+      "label": "Receipt KIE",
+      "short_label": "Receipt KIE",
+      "metric": "field/value F1"
+    }
+  },
+  "results": [
+    {
+      "model_id": "google/gemini-3-flash-preview",
+      "display_name": "Gemini 3 Flash Preview",
+      "family": "Closed",
+      "params_b": null,
+      "mean_score": 0.7759605044165022,
+      "scores": {
+        "dense_stvqa_gptoss": 0.8887804878048781,
+        "handwriting_ocr": 0.7720859952645102,
+        "receipt_kie": 0.6670150301801182
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/google/gemini-3-flash-preview/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/google/gemini-3-flash-preview/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/google/gemini-3-flash-preview/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "anthropic/claude-sonnet-4.6",
+      "display_name": "Claude Sonnet 4.6",
+      "family": "Closed",
+      "params_b": null,
+      "mean_score": 0.6851796517014305,
+      "scores": {
+        "dense_stvqa_gptoss": 0.7678048780487805,
+        "handwriting_ocr": 0.6959857433885553,
+        "receipt_kie": 0.5917483336669558
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/anthropic/claude-sonnet-4.6/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/anthropic/claude-sonnet-4.6/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/anthropic/claude-sonnet-4.6/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "openai/gpt-5.4-mini",
+      "display_name": "GPT-5.4-mini",
+      "family": "Closed",
+      "params_b": null,
+      "mean_score": 0.6173386938328994,
+      "scores": {
+        "dense_stvqa_gptoss": 0.4995121951219512,
+        "handwriting_ocr": 0.7499949248242856,
+        "receipt_kie": 0.6025089615524613
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/openai/gpt-5.4-mini/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/openai/gpt-5.4-mini/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/openai/gpt-5.4-mini/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-VL-8B-Instruct",
+      "display_name": "Qwen3-VL-8B-Instruct",
+      "family": "Qwen3-VL",
+      "params_b": 8.0,
+      "mean_score": 0.6062208507516765,
+      "scores": {
+        "dense_stvqa_gptoss": 0.6653658536585366,
+        "handwriting_ocr": 0.7707889237816724,
+        "receipt_kie": 0.3825077748148207
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/Qwen/Qwen3-VL-8B-Instruct/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3-VL-8B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3-VL-8B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-VL-72B-Instruct",
+      "display_name": "Qwen2.5-VL-72B-Instruct",
+      "family": "Qwen2.5-VL",
+      "params_b": 72.0,
+      "mean_score": 0.5884322643957618,
+      "scores": {
+        "handwriting_ocr": 0.7721505187230832,
+        "receipt_kie": 0.4047140100684405
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2.5-VL-72B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2.5-VL-72B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-VL-32B-Instruct",
+      "display_name": "Qwen3-VL-32B-Instruct",
+      "family": "Qwen3-VL",
+      "params_b": 32.0,
+      "mean_score": 0.5846677972974181,
+      "scores": {
+        "handwriting_ocr": 0.7723212341886627,
+        "receipt_kie": 0.3970143604061735
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3-VL-32B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3-VL-32B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-35B-A3B",
+      "display_name": "Qwen3.5-35B-A3B",
+      "family": "Qwen3.5",
+      "params_b": 35.0,
+      "mean_score": 0.5840835272634585,
+      "scores": {
+        "handwriting_ocr": 0.7535613330917094,
+        "receipt_kie": 0.4146057214352076
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3.5-35B-A3B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3.5-35B-A3B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2-VL-72B-Instruct",
+      "display_name": "Qwen2-VL-72B-Instruct",
+      "family": "Qwen2-VL",
+      "params_b": 72.0,
+      "mean_score": 0.5814454415218474,
+      "scores": {
+        "handwriting_ocr": 0.7429668276358293,
+        "receipt_kie": 0.41992405540786554
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2-VL-72B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2-VL-72B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "display_name": "Qwen2.5-VL-7B-Instruct",
+      "family": "Qwen2.5-VL",
+      "params_b": 7.0,
+      "mean_score": 0.5808027036699864,
+      "scores": {
+        "handwriting_ocr": 0.7565528974839566,
+        "receipt_kie": 0.40505250985601626
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2.5-VL-7B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2.5-VL-7B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "display_name": "Qwen3.5-9B",
+      "family": "Qwen3.5",
+      "params_b": 9.0,
+      "mean_score": 0.570324265575763,
+      "scores": {
+        "handwriting_ocr": 0.7571090108474401,
+        "receipt_kie": 0.3835395203040859
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3.5-9B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3.5-9B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "display_name": "Qwen3-VL-4B-Instruct",
+      "family": "Qwen3-VL",
+      "params_b": 4.0,
+      "mean_score": 0.5589700887207023,
+      "scores": {
+        "dense_stvqa_gptoss": 0.5746341463414634,
+        "handwriting_ocr": 0.7535947813891015,
+        "receipt_kie": 0.34868133843154203
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/Qwen/Qwen3-VL-4B-Instruct/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3-VL-4B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3-VL-4B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2-VL-7B-Instruct",
+      "display_name": "Qwen2-VL-7B-Instruct",
+      "family": "Qwen2-VL",
+      "params_b": 7.0,
+      "mean_score": 0.5540450677654363,
+      "scores": {
+        "handwriting_ocr": 0.7107123813396171,
+        "receipt_kie": 0.39737775419125554
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2-VL-7B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2-VL-7B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-4B",
+      "display_name": "AIDC-AI/Ovis2-4B",
+      "family": "Ovis2",
+      "params_b": 4.0,
+      "mean_score": 0.5376596845486352,
+      "scores": {
+        "handwriting_ocr": 0.6966624088493865,
+        "receipt_kie": 0.37865696024788387
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-4B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-4B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-8B",
+      "display_name": "InternVL3-8B",
+      "family": "InternVL3",
+      "params_b": 8.0,
+      "mean_score": 0.5373522879383188,
+      "scores": {
+        "handwriting_ocr": 0.7065631150095308,
+        "receipt_kie": 0.36814146086710686
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-8B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-8B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-VL-32B-Instruct",
+      "display_name": "Qwen2.5-VL-32B-Instruct",
+      "family": "Qwen2.5-VL",
+      "params_b": 32.0,
+      "mean_score": 0.5344998620866332,
+      "scores": {
+        "handwriting_ocr": 0.6726625327135485,
+        "receipt_kie": 0.39633719145971796
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2.5-VL-32B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2.5-VL-32B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-38B",
+      "display_name": "InternVL3-38B",
+      "family": "InternVL3",
+      "params_b": 38.0,
+      "mean_score": 0.5286288068330243,
+      "scores": {
+        "handwriting_ocr": 0.6755113774049469,
+        "receipt_kie": 0.3817462362611015
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-38B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-38B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-78B",
+      "display_name": "InternVL3-78B",
+      "family": "InternVL3",
+      "params_b": 78.0,
+      "mean_score": 0.5229926419844533,
+      "scores": {
+        "handwriting_ocr": 0.6916462889502536,
+        "receipt_kie": 0.35433899501865307
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-78B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-78B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-14B",
+      "display_name": "InternVL3-14B",
+      "family": "InternVL3",
+      "params_b": 14.0,
+      "mean_score": 0.517306368849955,
+      "scores": {
+        "handwriting_ocr": 0.673243842141738,
+        "receipt_kie": 0.3613688955581718
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-14B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-14B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+      "display_name": "Qwen3-VL-30B-A3B-Instruct",
+      "family": "Qwen3-VL",
+      "params_b": 30.0,
+      "mean_score": 0.5116427591599801,
+      "scores": {
+        "handwriting_ocr": 0.7692295369781306,
+        "receipt_kie": 0.25405598134182966
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3-VL-30B-A3B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3-VL-30B-A3B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+      "display_name": "Qwen2.5-VL-3B-Instruct",
+      "family": "Qwen2.5-VL",
+      "params_b": 3.0,
+      "mean_score": 0.5088360693190221,
+      "scores": {
+        "handwriting_ocr": 0.69826958423938,
+        "receipt_kie": 0.31940255439866433
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2.5-VL-3B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2.5-VL-3B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-8B",
+      "display_name": "AIDC-AI/Ovis2-8B",
+      "family": "Ovis2",
+      "params_b": 8.0,
+      "mean_score": 0.5063219805436767,
+      "scores": {
+        "handwriting_ocr": 0.6369313387342136,
+        "receipt_kie": 0.3757126223531398
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-8B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-8B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-8B",
+      "display_name": "InternVL3.5-8B",
+      "family": "InternVL3.5",
+      "params_b": 8.0,
+      "mean_score": 0.5058875898370613,
+      "scores": {
+        "dense_stvqa_gptoss": 0.4195121951219512,
+        "handwriting_ocr": 0.701735606619176,
+        "receipt_kie": 0.39641496777005664
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-8B/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3_5-8B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3_5-8B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-38B",
+      "display_name": "InternVL3.5-38B",
+      "family": "InternVL3.5",
+      "params_b": 38.0,
+      "mean_score": 0.4967898494587115,
+      "scores": {
+        "dense_stvqa_gptoss": 0.4058536585365854,
+        "handwriting_ocr": 0.6970214977771233,
+        "receipt_kie": 0.38749439206242586
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-38B/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3_5-38B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3_5-38B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen2-VL-2B-Instruct",
+      "display_name": "Qwen2-VL-2B-Instruct",
+      "family": "Qwen2-VL",
+      "params_b": 2.0,
+      "mean_score": 0.49113424725584287,
+      "scores": {
+        "handwriting_ocr": 0.6746065671286119,
+        "receipt_kie": 0.30766192738307385
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen2-VL-2B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen2-VL-2B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-16B",
+      "display_name": "AIDC-AI/Ovis2-16B",
+      "family": "Ovis2",
+      "params_b": 16.0,
+      "mean_score": 0.482599650155363,
+      "scores": {
+        "handwriting_ocr": 0.5897586012905033,
+        "receipt_kie": 0.37544069902022276
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-16B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-16B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-2B",
+      "display_name": "AIDC-AI/Ovis2-2B",
+      "family": "Ovis2",
+      "params_b": 2.0,
+      "mean_score": 0.4816050066065489,
+      "scores": {
+        "handwriting_ocr": 0.6252777324773717,
+        "receipt_kie": 0.3379322807357261
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-2B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-2B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-2B",
+      "display_name": "Qwen3.5-2B",
+      "family": "Qwen3.5",
+      "params_b": 2.0,
+      "mean_score": 0.47961773223673565,
+      "scores": {
+        "handwriting_ocr": 0.7137018210831431,
+        "receipt_kie": 0.2455336433903282
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3.5-2B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3.5-2B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-2B",
+      "display_name": "InternVL3-2B",
+      "family": "InternVL3",
+      "params_b": 2.0,
+      "mean_score": 0.47755080597279465,
+      "scores": {
+        "handwriting_ocr": 0.6464104705899281,
+        "receipt_kie": 0.3086911413556613
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-2B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-2B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "sbintuitions/sarashina2.2-vision-3b",
+      "display_name": "Sarashina2.2-Vision-3b",
+      "family": "Sarashina2.2",
+      "params_b": 3.0,
+      "mean_score": 0.46731707317073173,
+      "scores": {
+        "dense_stvqa_gptoss": 0.46731707317073173
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/sbintuitions/sarashina2.2-vision-3b/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "moonshotai/Kimi-VL-A3B-Instruct",
+      "display_name": "moonshotai/Kimi-VL-A3B-Instruct",
+      "family": "Kimi-VL",
+      "params_b": 3.0,
+      "mean_score": 0.46530106829406037,
+      "scores": {
+        "handwriting_ocr": 0.5271721559895907,
+        "receipt_kie": 0.40342998059853014
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/moonshotai/Kimi-VL-A3B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/moonshotai/Kimi-VL-A3B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-VL-2B-Instruct",
+      "display_name": "Qwen3-VL-2B-Instruct",
+      "family": "Qwen3-VL",
+      "params_b": 2.0,
+      "mean_score": 0.4635352477795948,
+      "scores": {
+        "dense_stvqa_gptoss": 0.3648780487804878,
+        "handwriting_ocr": 0.7373999510676472,
+        "receipt_kie": 0.28832774349064955
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/Qwen/Qwen3-VL-2B-Instruct/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3-VL-2B-Instruct/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3-VL-2B-Instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-4B",
+      "display_name": "InternVL3.5-4B",
+      "family": "InternVL3.5",
+      "params_b": 4.0,
+      "mean_score": 0.45586732719399276,
+      "scores": {
+        "dense_stvqa_gptoss": 0.3385365853658537,
+        "handwriting_ocr": 0.6870009513989754,
+        "receipt_kie": 0.342064444817149
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-4B/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3_5-4B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3_5-4B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-34B",
+      "display_name": "AIDC-AI/Ovis2-34B",
+      "family": "Ovis2",
+      "params_b": 34.0,
+      "mean_score": 0.4499237535646593,
+      "scores": {
+        "handwriting_ocr": 0.5395168198658249,
+        "receipt_kie": 0.36033068726349365
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-34B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-34B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "openbmb/MiniCPM-o-2_6",
+      "display_name": "openbmb/MiniCPM-o-2_6",
+      "family": "MiniCPM",
+      "params_b": 8.0,
+      "mean_score": 0.4458368140355169,
+      "scores": {
+        "handwriting_ocr": 0.5646430420230326,
+        "receipt_kie": 0.3270305860480011
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/openbmb/MiniCPM-o-2_6/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/openbmb/MiniCPM-o-2_6/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-27B",
+      "display_name": "Qwen3.5-27B",
+      "family": "Qwen3.5",
+      "params_b": 27.0,
+      "mean_score": 0.4341631527930187,
+      "scores": {
+        "handwriting_ocr": 0.4648269479832407,
+        "receipt_kie": 0.4034993576027967
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3.5-27B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3.5-27B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3-1B",
+      "display_name": "InternVL3-1B",
+      "family": "InternVL3",
+      "params_b": 1.0,
+      "mean_score": 0.4208861571052403,
+      "scores": {
+        "handwriting_ocr": 0.6229186259353966,
+        "receipt_kie": 0.218853688275084
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3-1B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3-1B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-2B",
+      "display_name": "InternVL3.5-2B",
+      "family": "InternVL3.5",
+      "params_b": 2.0,
+      "mean_score": 0.41728826170336425,
+      "scores": {
+        "dense_stvqa_gptoss": 0.2624390243902439,
+        "handwriting_ocr": 0.6549046501159544,
+        "receipt_kie": 0.3345211106038945
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-2B/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL3_5-2B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL3_5-2B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2-1B",
+      "display_name": "AIDC-AI/Ovis2-1B",
+      "family": "Ovis2",
+      "params_b": 1.0,
+      "mean_score": 0.40880634165145274,
+      "scores": {
+        "handwriting_ocr": 0.6483137922015372,
+        "receipt_kie": 0.16929889110136828
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2-1B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2-1B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "google/gemma-3-27b-it",
+      "display_name": "Gemma-3-27b-it",
+      "family": "Gemma 3",
+      "params_b": 27.0,
+      "mean_score": 0.390299178185273,
+      "scores": {
+        "dense_stvqa_gptoss": 0.4029268292682927,
+        "handwriting_ocr": 0.5696140098091771,
+        "receipt_kie": 0.1983566954783493
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/google/gemma-3-27b-it/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/google/gemma-3-27b-it/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/google/gemma-3-27b-it/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "google/gemma-3-12b-it",
+      "display_name": "Gemma-3-12b-it",
+      "family": "Gemma 3",
+      "params_b": 12.0,
+      "mean_score": 0.37992506401289416,
+      "scores": {
+        "dense_stvqa_gptoss": 0.34146341463414637,
+        "handwriting_ocr": 0.5815112175260208,
+        "receipt_kie": 0.21680055987851535
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/google/gemma-3-12b-it/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/google/gemma-3-12b-it/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/google/gemma-3-12b-it/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-14B",
+      "display_name": "InternVL3.5-14B",
+      "family": "InternVL3.5",
+      "params_b": 14.0,
+      "mean_score": 0.32195121951219513,
+      "scores": {
+        "dense_stvqa_gptoss": 0.32195121951219513
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-14B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3.5-4B",
+      "display_name": "Qwen3.5-4B",
+      "family": "Qwen3.5",
+      "params_b": 4.0,
+      "mean_score": 0.2443160427335761,
+      "scores": {
+        "handwriting_ocr": 0.1146561868256682,
+        "receipt_kie": 0.373975898641484
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/Qwen/Qwen3.5-4B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/Qwen/Qwen3.5-4B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "google/gemma-3-4b-it",
+      "display_name": "Gemma-3-4b-it",
+      "family": "Gemma 3",
+      "params_b": 4.0,
+      "mean_score": 0.22371238047017242,
+      "scores": {
+        "dense_stvqa_gptoss": 0.17268292682926828,
+        "handwriting_ocr": 0.40844669360918295,
+        "receipt_kie": 0.09000752097206595
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/google/gemma-3-4b-it/evaluation.jsonl",
+        "handwriting_ocr": "jawildtext-handwriting-ocr/google/gemma-3-4b-it/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/google/gemma-3-4b-it/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL2-8B",
+      "display_name": "InternVL2-8B",
+      "family": "InternVL2",
+      "params_b": 8.0,
+      "mean_score": 0.21917145232256835,
+      "scores": {
+        "handwriting_ocr": 0.151648467533595,
+        "receipt_kie": 0.2866944371115417
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL2-8B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL2-8B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL2-26B",
+      "display_name": "InternVL2-26B",
+      "family": "InternVL2",
+      "params_b": 26.0,
+      "mean_score": 0.20087064195483767,
+      "scores": {
+        "handwriting_ocr": 0.11001582168608624,
+        "receipt_kie": 0.2917254622235891
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/OpenGVLab/InternVL2-26B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/OpenGVLab/InternVL2-26B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "AIDC-AI/Ovis2.5-9B",
+      "display_name": "AIDC-AI/Ovis2.5-9B",
+      "family": "Ovis2.5",
+      "params_b": 9.0,
+      "mean_score": 0.17960486675241646,
+      "scores": {
+        "handwriting_ocr": 0.35920973350483293,
+        "receipt_kie": 0.0
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/AIDC-AI/Ovis2.5-9B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/AIDC-AI/Ovis2.5-9B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "microsoft/Phi-4-multimodal-instruct",
+      "display_name": "Phi-4-multimodal",
+      "family": "Phi-4",
+      "params_b": 14.0,
+      "mean_score": 0.16682926829268294,
+      "scores": {
+        "dense_stvqa_gptoss": 0.16682926829268294
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/microsoft/Phi-4-multimodal-instruct/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "OpenGVLab/InternVL3_5-1B",
+      "display_name": "InternVL3.5-1B",
+      "family": "InternVL3.5",
+      "params_b": 1.0,
+      "mean_score": 0.1629268292682927,
+      "scores": {
+        "dense_stvqa_gptoss": 0.1629268292682927
+      },
+      "sources": {
+        "dense_stvqa_gptoss": "jawildtext-board-vqa-gptoss/OpenGVLab/InternVL3_5-1B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "CohereLabs/aya-vision-32b",
+      "display_name": "CohereLabs/aya-vision-32b",
+      "family": "Aya Vision",
+      "params_b": 32.0,
+      "mean_score": 0.15567108077759836,
+      "scores": {
+        "handwriting_ocr": 0.15234121730017833,
+        "receipt_kie": 0.1590009442550184
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/CohereLabs/aya-vision-32b/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/CohereLabs/aya-vision-32b/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "allenai/Molmo2-8B",
+      "display_name": "allenai/Molmo2-8B",
+      "family": "Molmo2",
+      "params_b": 8.0,
+      "mean_score": 0.1351955800319467,
+      "scores": {
+        "handwriting_ocr": 0.06212651095751229,
+        "receipt_kie": 0.20826464910638112
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/allenai/Molmo2-8B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/allenai/Molmo2-8B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "allenai/Molmo2-4B",
+      "display_name": "allenai/Molmo2-4B",
+      "family": "Molmo2",
+      "params_b": 4.0,
+      "mean_score": 0.11379195333381503,
+      "scores": {
+        "handwriting_ocr": 0.060654121219770776,
+        "receipt_kie": 0.1669297854478593
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/allenai/Molmo2-4B/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/allenai/Molmo2-4B/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "CohereLabs/aya-vision-8b",
+      "display_name": "CohereLabs/aya-vision-8b",
+      "family": "Aya Vision",
+      "params_b": 8.0,
+      "mean_score": 0.10803133777362384,
+      "scores": {
+        "handwriting_ocr": 0.10062676107218002,
+        "receipt_kie": 0.11543591447506765
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/CohereLabs/aya-vision-8b/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/CohereLabs/aya-vision-8b/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "neulab/Pangea-7B-hf",
+      "display_name": "neulab/Pangea-7B-hf",
+      "family": "Pangea",
+      "params_b": 7.0,
+      "mean_score": 0.06787537506152379,
+      "scores": {
+        "handwriting_ocr": 0.020855988937566395,
+        "receipt_kie": 0.11489476118548118
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/neulab/Pangea-7B-hf/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/neulab/Pangea-7B-hf/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "llava-hf/llava-1.5-13b-hf",
+      "display_name": "llava-hf/llava-1.5-13b-hf",
+      "family": "LLaVA 1.5",
+      "params_b": 13.0,
+      "mean_score": 0.02366657848662895,
+      "scores": {
+        "handwriting_ocr": 0.0473331569732579,
+        "receipt_kie": 0.0
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/llava-hf/llava-1.5-13b-hf/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/llava-hf/llava-1.5-13b-hf/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "llava-hf/llava-1.5-7b-hf",
+      "display_name": "llava-hf/llava-1.5-7b-hf",
+      "family": "LLaVA 1.5",
+      "params_b": 7.0,
+      "mean_score": 0.0231840847737176,
+      "scores": {
+        "handwriting_ocr": 0.0463681695474352,
+        "receipt_kie": 0.0
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/llava-hf/llava-1.5-7b-hf/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/llava-hf/llava-1.5-7b-hf/evaluation.jsonl"
+      }
+    },
+    {
+      "model_id": "llava-hf/llava-v1.6-mistral-7b-hf",
+      "display_name": "llava-hf/llava-v1.6-mistral-7b-hf",
+      "family": "LLaVA 1.6",
+      "params_b": 7.0,
+      "mean_score": 0.022631444318672946,
+      "scores": {
+        "handwriting_ocr": 0.0022150070185027976,
+        "receipt_kie": 0.0430478816188431
+      },
+      "sources": {
+        "handwriting_ocr": "jawildtext-handwriting-ocr/llava-hf/llava-v1.6-mistral-7b-hf/evaluation.jsonl",
+        "receipt_kie": "jawildtext-receipt-kie/llava-hf/llava-v1.6-mistral-7b-hf/evaluation.jsonl"
+      }
+    }
+  ]
+}
