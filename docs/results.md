@@ -30,6 +30,12 @@ Dense STVQA public judge:
 - `results/main_results.md`
 - `results/main_results.json`
 - `results/receipt_kie_fields.md`
+- `results/extended_leaderboard_gptoss.md`
+- `results/extended_leaderboard_gptoss.json`
+- `results/family_summary_gptoss.md`
+- `results/family_summary_gptoss.json`
+- `results/scaling_curves/by_task_and_family.{svg,png,json}`
+
+See `docs/extended_results.md` for the extended leaderboard and model-family scaling curves.
 
 Raw logs are intentionally excluded.
-
