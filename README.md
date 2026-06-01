@@ -61,3 +61,15 @@ Aggregate result tables and documented prompts are allowed.
 ## License
 
 This repository is released under the Apache License 2.0. The dataset page also records the dataset license and usage notes.
+
+## Citation
+
+```bibtex
+@inproceedings{maeda-etal-2026-jawildtext,
+  title     = {{JaWildText}: A Benchmark for Vision-Language Models on Japanese Scene Text Understanding},
+  author    = {Maeda, Koki and Okazaki, Naoaki},
+  booktitle = {Proceedings of the 20th International Conference on Document Analysis and Recognition (ICDAR)},
+  year      = {2026},
+  note      = {To appear}
+}
+```
