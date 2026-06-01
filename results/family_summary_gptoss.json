@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T00:30:41+00:00",
+  "generated_at": "2026-06-01T00:56:56+00:00",
   "dataset": "llm-jp/jawildtext",
   "dense_stvqa_judge": {
     "judge_model": "openai/gpt-oss-20b",

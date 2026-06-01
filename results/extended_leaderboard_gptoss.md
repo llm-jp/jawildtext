@@ -1,6 +1,6 @@
 # Extended Leaderboard
 
-Generated at: `2026-06-01T00:30:41+00:00`
+Generated at: `2026-06-01T00:56:56+00:00`
 
 Dense STVQA scores use the `openai/gpt-oss-20b` verifier with `reasoning_effort=low`.
 Handwriting OCR uses `1 - CER`; Receipt KIE uses field/value F1.

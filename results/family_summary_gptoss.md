@@ -1,6 +1,6 @@
 # Model Family Summary
 
-Generated at: `2026-06-01T00:30:41+00:00`
+Generated at: `2026-06-01T00:56:56+00:00`
 
 | Family | Models | Mean (available) | Dense STVQA avg | Dense STVQA best | HW OCR avg | HW OCR best | Receipt KIE avg | Receipt KIE best |
 | :--- | ---: | ---: | ---: | :--- | ---: | :--- | ---: | :--- |

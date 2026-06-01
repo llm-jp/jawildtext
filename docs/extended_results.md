@@ -1,6 +1,6 @@
 # Extended Results
 
-Generated at: `2026-06-01T00:30:41+00:00`
+Generated at: `2026-06-01T00:56:56+00:00`
 
 This page documents extended JaWildText aggregate results beyond the 14-model main-paper table.
 Dense STVQA scores in these artifacts use `openai/gpt-oss-20b` with `reasoning_effort=low` as the public verifier.
@@ -12,9 +12,6 @@ Handwriting OCR and Receipt KIE use the standard task scorers.
 - `results/extended_leaderboard_gptoss.json`: machine-readable rows with source roots.
 - `results/family_summary_gptoss.md`: model-family summary.
 - `results/family_summary_gptoss.json`: machine-readable family summary.
-- `results/scaling_curves/by_task_and_family.svg`: scaling-curve plot.
-- `results/scaling_curves/by_task_and_family.png`: rendered scaling-curve image.
-- `results/scaling_curves/by_task_and_family.json`: plot source data.
 
 ## Coverage
 
@@ -25,13 +22,6 @@ Handwriting OCR and Receipt KIE use the standard task scorers.
 | Dense STVQA gpt-oss aggregate scores | 17 |
 | Handwriting OCR aggregate scores | 52 |
 | Receipt KIE aggregate scores | 52 |
-
-## Scaling Curves
-
-![Scaling curves by task and family](../results/scaling_curves/by_task_and_family.png)
-
-The plotted image emphasizes multi-size families with at least two parameter points.
-The JSON artifact contains all task-family points used for the plot.
 
 ## Provenance
 

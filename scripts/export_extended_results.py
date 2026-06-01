@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 """Export public JaWildText extended result artifacts.
 
-The script reads aggregate eval-mm outputs and writes public-facing tables,
-machine-readable summaries, and a small-multiple scaling-curve SVG.
+The script reads aggregate eval-mm outputs and writes public-facing tables and
+machine-readable summaries.
 """
 
 from __future__ import annotations
 
 import argparse
-import html
 import json
-import math
 import re
-import subprocess
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -60,19 +57,6 @@ DISPLAY_REPLACEMENTS = {
     "openai/gpt-5.4-mini": "GPT-5.4-mini",
     "google/gemini-3-flash-preview": "Gemini 3 Flash Preview",
 }
-
-PALETTE = {
-    "Qwen3-VL": "#2563eb",
-    "Qwen2.5-VL": "#0f766e",
-    "Qwen3.5": "#7c3aed",
-    "InternVL3.5": "#dc2626",
-    "InternVL3": "#ea580c",
-    "Gemma 3": "#16a34a",
-    "Ovis2": "#9333ea",
-    "LLaVA 1.5": "#475569",
-    "Closed": "#111827",
-}
-
 
 @dataclass
 class Row:
@@ -422,191 +406,6 @@ def write_family_summary(rows: list[Row], out_dir: Path, generated_at: str) -> l
     return summary
 
 
-def scaling_points(rows: list[Row]) -> dict:
-    points: dict[str, dict[str, list[dict]]] = {}
-    for task_key in TASKS:
-        by_family: dict[str, list[dict]] = defaultdict(list)
-        for row in rows:
-            if task_key not in row.scores or row.params_b is None:
-                continue
-            by_family[row.family].append(
-                {
-                    "model_id": row.model_id,
-                    "display_name": row.display_name,
-                    "params_b": row.params_b,
-                    "score": row.scores[task_key],
-                }
-            )
-        points[task_key] = {}
-        for family, family_points in by_family.items():
-            family_points.sort(key=lambda item: (item["params_b"], item["model_id"]))
-            if len(family_points) >= 2:
-                points[task_key][family] = family_points
-    return points
-
-
-def svg_text(x: float, y: float, text: str, size: int = 12, anchor: str = "start") -> str:
-    return (
-        f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" '
-        f'font-family="Arial, sans-serif" text-anchor="{anchor}" fill="#111827">'
-        f"{html.escape(text)}</text>"
-    )
-
-
-def path_for_points(points: list[dict], x_scale, y_scale) -> str:
-    coords = [(x_scale(item["params_b"]), y_scale(item["score"])) for item in points]
-    if len(coords) == 1:
-        x, y = coords[0]
-        return f"M {x:.1f} {y:.1f}"
-    return " ".join(
-        f"{'M' if idx == 0 else 'L'} {x:.1f} {y:.1f}"
-        for idx, (x, y) in enumerate(coords)
-    )
-
-
-def write_scaling_artifacts(rows: list[Row], out_dir: Path, generated_at: str) -> None:
-    curve_dir = out_dir / "scaling_curves"
-    curve_dir.mkdir(parents=True, exist_ok=True)
-    points = scaling_points(rows)
-    (curve_dir / "by_task_and_family.json").write_text(
-        json.dumps(
-            {
-                "generated_at": generated_at,
-                "dataset": "llm-jp/jawildtext",
-                "x_axis": "model parameters in billions, log scale",
-                "y_axis": "task score",
-                "tasks": TASKS,
-                "points": points,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
-    width = 1320
-    height = 520
-    panel_w = 370
-    panel_h = 330
-    gap = 45
-    top = 92
-    left0 = 70
-    bottom_pad = 70
-    all_params = [
-        item["params_b"]
-        for task in points.values()
-        for family_points in task.values()
-        for item in family_points
-        if item["params_b"] > 0
-    ]
-    x_min = math.log10(min(all_params) if all_params else 1.0)
-    x_max = math.log10(max(all_params) if all_params else 100.0)
-    if x_min == x_max:
-        x_max += 1
-    y_min, y_max = 0.0, 1.0
-    families = sorted(
-        {
-            family
-            for task in points.values()
-            for family, family_points in task.items()
-            if len(family_points) >= 2
-        }
-    )
-    preferred = [
-        "Qwen3-VL",
-        "Qwen2.5-VL",
-        "Qwen3.5",
-        "InternVL3.5",
-        "InternVL3",
-        "Gemma 3",
-        "Ovis2",
-        "LLaVA 1.5",
-    ]
-    plotted_families = [f for f in preferred if f in families]
-    for family in families:
-        if family not in plotted_families and len(plotted_families) < 10:
-            plotted_families.append(family)
-
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-        '<rect width="100%" height="100%" fill="#ffffff"/>',
-        svg_text(40, 38, "JaWildText scaling curves by model family", 22),
-        svg_text(
-            40,
-            64,
-            "Dense STVQA uses gpt-oss-20b; x-axis is total model parameters on a log scale.",
-            13,
-        ),
-    ]
-    ticks_x = [1, 2, 4, 8, 16, 32, 72]
-    ticks_y = [0.0, 0.25, 0.5, 0.75, 1.0]
-    task_order = ["dense_stvqa_gptoss", "handwriting_ocr", "receipt_kie"]
-    for panel_idx, task_key in enumerate(task_order):
-        x0 = left0 + panel_idx * (panel_w + gap)
-        y0 = top
-        x1 = x0 + panel_w
-        y1 = y0 + panel_h
-
-        def x_scale(value: float) -> float:
-            return x0 + ((math.log10(value) - x_min) / (x_max - x_min)) * panel_w
-
-        def y_scale(value: float) -> float:
-            return y1 - ((value - y_min) / (y_max - y_min)) * panel_h
-
-        parts.append(f'<rect x="{x0}" y="{y0}" width="{panel_w}" height="{panel_h}" fill="#fafafa" stroke="#d1d5db"/>')
-        parts.append(svg_text(x0, y0 - 16, TASKS[task_key]["label"], 16))
-        for tick in ticks_y:
-            y = y_scale(tick)
-            parts.append(f'<line x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}" stroke="#e5e7eb"/>')
-            parts.append(svg_text(x0 - 10, y + 4, f"{tick:.2f}", 11, "end"))
-        for tick in ticks_x:
-            if math.log10(tick) < x_min or math.log10(tick) > x_max:
-                continue
-            x = x_scale(tick)
-            parts.append(f'<line x1="{x:.1f}" y1="{y0}" x2="{x:.1f}" y2="{y1}" stroke="#e5e7eb"/>')
-            parts.append(svg_text(x, y1 + 20, f"{tick}B", 11, "middle"))
-        for family in plotted_families:
-            family_points = points.get(task_key, {}).get(family)
-            if not family_points:
-                continue
-            color = PALETTE.get(family, "#64748b")
-            parts.append(
-                f'<path d="{path_for_points(family_points, x_scale, y_scale)}" '
-                f'fill="none" stroke="{color}" stroke-width="2.4"/>'
-            )
-            for item in family_points:
-                x = x_scale(item["params_b"])
-                y = y_scale(item["score"])
-                parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.8" fill="{color}"/>')
-        parts.append(svg_text((x0 + x1) / 2, y1 + 48, "Parameters", 12, "middle"))
-    legend_x = 40
-    legend_y = height - 30
-    offset = 0
-    for family in plotted_families:
-        color = PALETTE.get(family, "#64748b")
-        x = legend_x + offset
-        parts.append(f'<line x1="{x}" y1="{legend_y}" x2="{x + 22}" y2="{legend_y}" stroke="{color}" stroke-width="3"/>')
-        parts.append(svg_text(x + 28, legend_y + 4, family, 12))
-        offset += max(108, len(family) * 8 + 48)
-    parts.append("</svg>")
-    svg_path = curve_dir / "by_task_and_family.svg"
-    svg_path.write_text("\n".join(parts) + "\n", encoding="utf-8")
-
-    png_path = curve_dir / "by_task_and_family.png"
-    try:
-        subprocess.run(
-            ["convert", str(svg_path), str(png_path)],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-    except Exception:
-        if png_path.exists():
-            png_path.unlink()
-
-
 def write_docs(out_root: Path, rows: list[Row], summary: list[dict], generated_at: str) -> None:
     complete_rows = [row for row in rows if len(row.scores) == len(TASKS)]
     body = [
@@ -624,9 +423,6 @@ def write_docs(out_root: Path, rows: list[Row], summary: list[dict], generated_a
         "- `results/extended_leaderboard_gptoss.json`: machine-readable rows with source roots.",
         "- `results/family_summary_gptoss.md`: model-family summary.",
         "- `results/family_summary_gptoss.json`: machine-readable family summary.",
-        "- `results/scaling_curves/by_task_and_family.svg`: scaling-curve plot.",
-        "- `results/scaling_curves/by_task_and_family.png`: rendered scaling-curve image.",
-        "- `results/scaling_curves/by_task_and_family.json`: plot source data.",
         "",
         "## Coverage",
         "",
@@ -650,13 +446,6 @@ def write_docs(out_root: Path, rows: list[Row], summary: list[dict], generated_a
             ],
             [":---", "---:"],
         ),
-        "",
-        "## Scaling Curves",
-        "",
-        "![Scaling curves by task and family](../results/scaling_curves/by_task_and_family.png)",
-        "",
-        "The plotted image emphasizes multi-size families with at least two parameter points.",
-        "The JSON artifact contains all task-family points used for the plot.",
         "",
         "## Provenance",
         "",
@@ -695,7 +484,6 @@ def main() -> None:
     rows = collect_rows(args.result_root)
     write_leaderboard(rows, results_dir, generated_at)
     summary = write_family_summary(rows, results_dir, generated_at)
-    write_scaling_artifacts(rows, results_dir, generated_at)
     write_docs(output_root, rows, summary, generated_at)
 
 
