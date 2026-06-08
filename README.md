@@ -1,3 +1,5 @@
+<img width="900" alt="スクリーンショット 2026-06-08 9 40 24" src="https://github.com/user-attachments/assets/b2d59921-f631-44c2-a418-154d106d8089" />
+
 # JaWildText
 
 JaWildText is a benchmark for evaluating vision-language models on Japanese wild-text understanding. It covers three complementary tasks: Dense Scene Text Visual Question Answering (Dense STVQA), Receipt Key Information Extraction (Receipt KIE), and Handwriting OCR.
