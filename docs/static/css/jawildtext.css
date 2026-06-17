@@ -25,17 +25,6 @@ body {
   min-height: 3.25rem;
 }
 
-.project-nav .container {
-  max-width: 1120px;
-}
-
-.project-nav .navbar-end {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
 .navbar-item,
 .navbar-link {
   font-weight: 600;
@@ -48,22 +37,26 @@ body {
 
 .publication-hero .hero-body {
   padding-bottom: 3rem;
-  padding-top: 4.25rem;
+  padding-top: 3.5rem;
 }
 
 .publication-title {
   color: var(--ink);
-  font-size: clamp(2.45rem, 5.5vw, 4.9rem);
   font-weight: 800;
-  line-height: 1.05;
-  margin-bottom: 1.1rem;
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
 }
 
-.publication-subtitle {
-  color: var(--muted);
-  font-size: 1.2rem;
-  margin: 0 auto 1.25rem;
-  max-width: 860px;
+.publication-name {
+  display: block;
+  font-size: 4.45rem;
+}
+
+.publication-title-detail {
+  display: block;
+  font-size: 2.05rem;
+  margin: 0.45rem auto 0;
+  max-width: 940px;
 }
 
 .author-line {
@@ -92,9 +85,43 @@ body {
 .publication-links .button {
   border-radius: 999px;
   font-weight: 700;
+  height: auto;
+  line-height: 1.25;
   margin: 0.35rem;
   padding-left: 1.2rem;
   padding-right: 1.2rem;
+  white-space: normal;
+}
+
+.emoji {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 1.1em;
+  margin-right: 0.35rem;
+  vertical-align: -0.16em;
+  width: 1.1em;
+}
+
+.emoji-paper {
+  background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c4.svg");
+}
+
+.emoji-pdf {
+  background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4d5.svg");
+}
+
+.emoji-code {
+  background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4bb.svg");
+}
+
+.emoji-hf {
+  background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f917.svg");
+}
+
+.emoji-chart {
+  background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c8.svg");
 }
 
 .button.is-jawild {
@@ -463,20 +490,15 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .project-nav .navbar-menu {
-    display: block;
-    padding: 0.35rem 0.65rem 0.6rem;
+  .publication-hero .hero-body {
+    padding-top: 2.5rem;
   }
 
-  .project-nav .navbar-end {
-    justify-content: flex-start;
+  .publication-name {
+    font-size: 2.55rem;
   }
 
-  .project-nav .navbar-item {
-    padding: 0.35rem 0.55rem;
-  }
-
-  .publication-title {
-    font-size: 2.45rem;
+  .publication-title-detail {
+    font-size: 1.35rem;
   }
 }
