@@ -21,7 +21,8 @@ body {
 }
 
 .navbar {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgb(219 227 234 / 0.7);
+  min-height: 3.25rem;
 }
 
 .navbar-item,
@@ -30,16 +31,16 @@ body {
 }
 
 .publication-hero {
-  background: linear-gradient(180deg, #f8fbfd 0%, #ffffff 76%);
-  border-bottom: 1px solid var(--line);
+  background: #ffffff;
+  border-bottom: 1px solid rgb(219 227 234 / 0.65);
 }
 
 .publication-title {
   color: var(--ink);
-  font-size: clamp(2.3rem, 5vw, 4.6rem);
+  font-size: clamp(2.45rem, 5.5vw, 4.9rem);
   font-weight: 800;
   line-height: 1.05;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 
 .publication-subtitle {
@@ -62,9 +63,11 @@ body {
 }
 
 .publication-links .button {
-  border-radius: 6px;
+  border-radius: 999px;
   font-weight: 700;
   margin: 0.35rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
 }
 
 .button.is-jawild {
@@ -90,13 +93,39 @@ body {
   color: var(--accent-dark);
 }
 
+.paper-meta {
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 600;
+  margin: 1.05rem auto 0;
+}
+
+.publication-banner {
+  margin: 2rem auto 0;
+  max-width: 760px;
+}
+
+.publication-banner img {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgb(23 32 42 / 0.1);
+  display: block;
+  width: 100%;
+}
+
+.publication-banner figcaption {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
+}
+
 .teaser-panel {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: 0 12px 30px rgb(23 32 42 / 0.08);
+  box-shadow: 0 10px 24px rgb(23 32 42 / 0.07);
   margin: 1.5rem auto 0;
-  max-width: 760px;
+  max-width: 680px;
   overflow: hidden;
 }
 
@@ -118,34 +147,34 @@ body {
 }
 
 .stat-card {
-  background: var(--soft);
+  background: #ffffff;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
 }
 
 .stat-value {
   color: var(--accent-dark);
-  display: block;
-  font-size: 1.8rem;
+  display: inline;
+  font-size: 1rem;
   font-weight: 800;
   line-height: 1;
+  margin-right: 0.45rem;
 }
 
 .stat-label {
   color: var(--muted);
-  display: block;
+  display: inline;
   font-size: 0.86rem;
   font-weight: 700;
-  margin-top: 0.45rem;
 }
 
 .section {
-  padding: 4rem 1.5rem;
+  padding: 3.5rem 1.5rem;
 }
 
 .section.is-soft {
-  background: var(--soft);
+  background: #f8fbfd;
   border-bottom: 1px solid var(--line);
   border-top: 1px solid var(--line);
 }
@@ -153,7 +182,8 @@ body {
 .section-title {
   font-size: 1.8rem;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
 }
 
 .subsection-title {
@@ -165,6 +195,8 @@ body {
 .lead {
   color: var(--muted);
   font-size: 1.08rem;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 880px;
 }
 
