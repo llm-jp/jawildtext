@@ -1,0 +1,16 @@
+title: JaWildText Evaluation
+description: Evaluation protocol, leaderboards, and visual summaries for JaWildText.
+theme: minima
+
+header_pages:
+  - evaluation.md
+  - leaderboard.md
+  - extended_results.md
+  - results.md
+  - result_schema.md
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: page
