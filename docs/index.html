@@ -77,20 +77,26 @@
       <div class="container is-max-desktop">
         <h2 class="section-title">Paper Summary</h2>
         <div class="paper-summary">
-          <dl>
-            <dt>Abstract</dt>
-            <dd>JaWildText targets Japanese scene text, where mixed scripts, vertical writing, and a large character inventory make multilingual benchmarks insufficient for diagnosis.</dd>
-            <dt>Introduction</dt>
-            <dd>The benchmark is designed to separate recognition errors from reasoning errors, rather than reporting only downstream task accuracy.</dd>
-            <dt>Dataset</dt>
-            <dd>It contains Dense STVQA, Receipt KIE, and Handwriting OCR examples collected in Japan, with detailed text-region and task annotations.</dd>
-            <dt>Experiments</dt>
-            <dd>The paper benchmarks 14 open-weight VLMs and reports an average score of 0.64 for the best model across the three main tasks.</dd>
-            <dt>Analysis</dt>
-            <dd>Error analysis shows that recognition remains the dominant bottleneck, especially for kanji, and that failures vary by script and model family.</dd>
-            <dt>Conclusion</dt>
-            <dd>JaWildText provides a compact diagnostic benchmark for Japanese visual text understanding and reproducible evaluation code.</dd>
-          </dl>
+          <h3>Abstract</h3>
+          <p>The paper introduces <strong>JaWildText</strong>, a diagnostic benchmark for evaluating how well vision-language models understand Japanese scene text in real-world images. Japanese scene text is challenging because it mixes kanji, hiragana, katakana, Latin characters, vertical writing, dense layouts, and a large character inventory. The benchmark contains <strong>3,241 instances from 2,961 images</strong>, with <strong>1.12 million annotated characters</strong> across <strong>3,643 unique character types</strong>. It consists of Dense Scene Text VQA, Receipt Key Information Extraction, and Handwriting OCR. Experiments on 14 open-weight VLMs show that even the best model reaches only a <strong>0.64 average score</strong>, and the analysis identifies recognition, especially kanji recognition, as the main bottleneck.</p>
+
+          <h3>Introduction</h3>
+          <p>The introduction motivates a Japanese-specific diagnostic benchmark for scene text understanding. Traditional OCR systems first recognize text and then pass it to downstream modules, while modern VLMs attempt to solve tasks end-to-end directly from images. This makes evaluation harder because downstream errors may come from poor character recognition or from reasoning failures after correct recognition. Existing multilingual benchmarks include Japanese only superficially and do not capture Japanese-specific difficulties such as mixed scripts, vertical text, dense layouts, and thousands of kanji characters. JaWildText addresses this gap by separating recognition and reasoning failures across Dense STVQA, Receipt KIE, and Handwriting OCR.</p>
+
+          <h3>Related Work</h3>
+          <p>The paper situates JaWildText among prior benchmarks for scene text, document understanding, handwriting recognition, and Japanese multimodal evaluation. English resources include mature benchmarks for scene text recognition, text-centric VQA, receipt and document KIE, and handwriting recognition. Multilingual resources broaden language coverage, but generally lack deep language-specific diagnosis. Existing Japanese datasets cover isolated characters, vertical text, comics, receipts, scanned documents, or broader multimodal reasoning, but none jointly evaluates real-world Japanese scene text recognition and reasoning.</p>
+
+          <h3>Dataset</h3>
+          <p>JaWildText is designed to diagnose whether a model fails because of character recognition, layout understanding, reasoning, or output formatting. Dense STVQA uses cluttered real-world images such as signboards, bulletin boards, posters, and packages, and asks open-ended questions that often require combining evidence from multiple text regions. Receipt KIE evaluates structured extraction from mobile-captured Japanese receipts, including header fields and line-item information. Handwriting OCR evaluates page-level transcription of modern handwritten Japanese across paper, whiteboards, and tablets, including both horizontal and vertical writing. The dataset contains <strong>95,705 annotated text regions</strong> and <strong>1,117,514 characters</strong>, and covers <strong>1,985 of 2,136 Joyo kanji</strong> plus <strong>881 non-Joyo kanji</strong>.</p>
+
+          <h3>Experiments</h3>
+          <p>The experiments evaluate 14 open-weight VLMs from several model families, including Qwen3-VL, InternVL3.5, Gemma3, Phi-4-Multimodal, and Sarashina2.2-Vision. Models are tested with task-specific output formats: boxed answers for Dense STVQA, JSON for Receipt KIE, and plain text transcription for Handwriting OCR. Dense STVQA is scored with LLM-based binary judgment, Receipt KIE with F1 and field-level accuracy, and Handwriting OCR with character-level similarity based on CER. The best model, <strong>Qwen3-VL-8B</strong>, reaches an overall score of <strong>0.64</strong>, showing that Japanese scene text understanding remains far from solved.</p>
+
+          <h3>Analysis</h3>
+          <p>The analysis gives a deeper diagnosis of model failures. For Dense STVQA, the paper categorizes errors as Correct, Recognition Error, Reasoning Error, or Format Error. Recognition errors are the largest failure category for most models, showing that reading Japanese scene text remains the main bottleneck. For Handwriting OCR, the paper breaks CER down by script type and finds that <strong>kanji has the highest error rate</strong>, largely because of its large character inventory and visual complexity. The paper also compares general-purpose VLMs with OCR-specialized models and finds that robust real-world handwritten Japanese recognition remains difficult even for OCR-focused systems.</p>
+
+          <h3>Conclusion</h3>
+          <p>The conclusion positions JaWildText as a diagnostic benchmark for Japanese scene text understanding. Across Dense STVQA, Receipt KIE, and Handwriting OCR, even strong open-weight VLMs still struggle with Japanese text in real-world images. Fine-grained analyses show that recognition, especially kanji recognition, remains the dominant bottleneck. The paper argues that future progress will require targeted interventions based on detailed diagnosis rather than only aggregate task accuracy.</p>
         </div>
       </div>
     </section>
