@@ -13,7 +13,7 @@ This repository is the release bundle for evaluation documentation, prompts, res
 ## Contents
 
 - `docs/index.html`: GitHub Pages project-page entry point.
-- `docs/evaluation.md`: task definitions, prompts, and scoring protocol.
+- `docs/evaluation.html`: task definitions, prompts, and scoring protocol.
 - `docs/leaderboard.md`: public tables and generated visual summaries.
 - `docs/results.md`: benchmark result summary and provenance notes.
 - `docs/extended_results.md`: extended leaderboard coverage summary.

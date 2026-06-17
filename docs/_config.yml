@@ -3,7 +3,7 @@ description: Evaluation protocol, leaderboards, and visual summaries for JaWildT
 theme: minima
 
 header_pages:
-  - evaluation.md
+  - evaluation.html
   - leaderboard.md
   - extended_results.md
   - results.md

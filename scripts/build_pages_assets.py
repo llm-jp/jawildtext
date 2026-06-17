@@ -324,31 +324,21 @@ def write_index(output_root: Path, extended_payload: dict) -> None:
     <section class="section" id="paper">
       <div class="container is-max-desktop">
         <h2 class="section-title">Paper Summary</h2>
-        <div class="summary-grid">
-          <article class="summary-card">
-            <h3>Abstract</h3>
-            <p>JaWildText targets Japanese scene text, where mixed scripts, vertical writing, and a large character inventory make multilingual benchmarks insufficient for diagnosis.</p>
-          </article>
-          <article class="summary-card">
-            <h3>Introduction</h3>
-            <p>The benchmark is designed to separate recognition errors from reasoning errors, rather than reporting only downstream task accuracy.</p>
-          </article>
-          <article class="summary-card">
-            <h3>Dataset</h3>
-            <p>It contains Dense STVQA, Receipt KIE, and Handwriting OCR examples collected in Japan, with detailed text-region and task annotations.</p>
-          </article>
-          <article class="summary-card">
-            <h3>Experiments</h3>
-            <p>The paper benchmarks 14 open-weight VLMs and reports an average score of 0.64 for the best model across the three main tasks.</p>
-          </article>
-          <article class="summary-card">
-            <h3>Analysis</h3>
-            <p>Error analysis shows that recognition remains the dominant bottleneck, especially for kanji, and that failures vary by script and model family.</p>
-          </article>
-          <article class="summary-card">
-            <h3>Conclusion</h3>
-            <p>JaWildText provides a compact diagnostic benchmark for Japanese visual text understanding and reproducible evaluation code.</p>
-          </article>
+        <div class="paper-summary">
+          <dl>
+            <dt>Abstract</dt>
+            <dd>JaWildText targets Japanese scene text, where mixed scripts, vertical writing, and a large character inventory make multilingual benchmarks insufficient for diagnosis.</dd>
+            <dt>Introduction</dt>
+            <dd>The benchmark is designed to separate recognition errors from reasoning errors, rather than reporting only downstream task accuracy.</dd>
+            <dt>Dataset</dt>
+            <dd>It contains Dense STVQA, Receipt KIE, and Handwriting OCR examples collected in Japan, with detailed text-region and task annotations.</dd>
+            <dt>Experiments</dt>
+            <dd>The paper benchmarks 14 open-weight VLMs and reports an average score of 0.64 for the best model across the three main tasks.</dd>
+            <dt>Analysis</dt>
+            <dd>Error analysis shows that recognition remains the dominant bottleneck, especially for kanji, and that failures vary by script and model family.</dd>
+            <dt>Conclusion</dt>
+            <dd>JaWildText provides a compact diagnostic benchmark for Japanese visual text understanding and reproducible evaluation code.</dd>
+          </dl>
         </div>
       </div>
     </section>
@@ -370,7 +360,7 @@ def write_index(output_root: Path, extended_payload: dict) -> None:
     </section>
 
     <section class="section" id="results">
-      <div class="container is-fluid page-wide">
+      <div class="container content-frame">
         <h2 class="section-title">Evaluation Results</h2>
         <p class="lead">
           The public extended export lists {len(rows)} models. Dense STVQA uses the <code>jawildtext-board-vqa-gptoss</code>

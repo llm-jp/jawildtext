@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evaluation protocol for JaWildText Dense STVQA, Handwriting OCR, and Receipt KIE tasks.">
+  <title>Evaluation | JaWildText</title>
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/jawildtext.css">
+</head>
+<body>
+  <nav class="navbar is-white" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="./">JaWildText</a>
+      </div>
+      <div class="navbar-menu is-active">
+        <div class="navbar-end">
+          <a class="navbar-item" href="./#paper">Paper</a>
+          <a class="navbar-item" href="./#citation">Citation</a>
+          <a class="navbar-item" href="./#results">Results</a>
+          <a class="navbar-item" href="evaluation.html">Evaluation</a>
+          <a class="navbar-item" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero publication-hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <h1 class="publication-title">Evaluation</h1>
+          <p class="publication-subtitle">
+            JaWildText evaluates three Japanese scene-text understanding tasks from the Hugging Face dataset <code>llm-jp/jawildtext</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-frame">
+        <h2 class="section-title">Dense STVQA</h2>
+        <p class="lead">
+          Dense STVQA evaluates question answering over text-rich real-world images such as signs, boards, posters, and packages.
+        </p>
+
+        <h3 class="subsection-title">Inference Prompt</h3>
+        <p>The model receives the question followed by this instruction:</p>
+        <pre class="protocol-block"><code>画像を参照して回答してください。推論過程は出力しても構いませんが、最終回答は必ず \boxed{...} で囲み、ボックス内には最終回答のみを1つだけ記載してください。</code></pre>
+        <p>
+          The evaluator extracts the final boxed answer according to the release evaluator implementation.
+          If the output cannot be parsed as a boxed answer, the example receives 0.
+        </p>
+
+        <h3 class="subsection-title">Judge</h3>
+        <p>Public Dense STVQA provenance uses:</p>
+        <pre class="protocol-block"><code>{
+  "judge_model": "openai/gpt-oss-20b",
+  "reasoning_effort": "low"
+}</code></pre>
+        <p>The binary judge compares the question, gold answer, and model prediction. It must answer only:</p>
+        <pre class="protocol-block"><code>correct: yes</code></pre>
+        <p>or</p>
+        <pre class="protocol-block"><code>correct: no</code></pre>
+        <p>The Dense STVQA score is binary judge accuracy.</p>
+      </div>
+    </section>
+
+    <section class="section is-soft">
+      <div class="container content-frame">
+        <h2 class="section-title">Handwriting OCR</h2>
+        <p class="lead">
+          Handwriting OCR evaluates transcription of handwritten Japanese text.
+        </p>
+        <p>
+          The model is prompted to read all text in the image and preserve line breaks.
+          Before scoring, text is normalized with Unicode NFKC normalization and newline/space normalization.
+        </p>
+        <p>The score is:</p>
+        <pre class="protocol-block"><code>max(0, 1 - CER)</code></pre>
+        <p>
+          CER is the Levenshtein distance between prediction and reference divided by the reference length.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-frame">
+        <h2 class="section-title">Receipt KIE</h2>
+        <p class="lead">
+          Receipt KIE evaluates structured information extraction from Japanese receipt images.
+        </p>
+        <p>The model is prompted to output a JSON object with these fields:</p>
+        <div class="table-wrap protocol-table-wrap">
+          <table class="leaderboard-table protocol-table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>store_name</code></td><td>Store name.</td></tr>
+              <tr><td><code>store_address</code></td><td>Store address.</td></tr>
+              <tr><td><code>receipt_id</code></td><td>Receipt identifier.</td></tr>
+              <tr><td><code>date</code></td><td>Receipt date.</td></tr>
+              <tr><td><code>time</code></td><td>Receipt time.</td></tr>
+              <tr><td><code>total_amount</code></td><td>Total amount.</td></tr>
+              <tr><td><code>tax_amount</code></td><td>Tax amount.</td></tr>
+              <tr><td><code>line_items[]</code></td><td>Items with optional name, price, and quantity fields.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Invalid JSON receives 0 for the F1 score. Field values are normalized with Unicode NFKC normalization,
+          lowercasing, whitespace normalization, and removal of yen symbols and thousands separators before comparison.
+        </p>
+        <p>
+          The main Receipt KIE score is token-level field/value F1. Field-level accuracy is computed for scalar fields present in the gold answer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section is-soft">
+      <div class="container content-frame">
+        <h2 class="section-title">Overall Score</h2>
+        <p class="lead">
+          The overall JaWildText score is the unweighted average of Dense STVQA judge accuracy, Receipt KIE F1, and Handwriting OCR <code>1 - CER</code>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <p>
+        JaWildText release materials are maintained in
+        <a href="https://github.com/llm-jp/jawildtext">llm-jp/jawildtext</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
