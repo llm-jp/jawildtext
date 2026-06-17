@@ -25,6 +25,17 @@ body {
   min-height: 3.25rem;
 }
 
+.project-nav .container {
+  max-width: 1120px;
+}
+
+.project-nav .navbar-end {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .navbar-item,
 .navbar-link {
   font-weight: 600;
@@ -33,6 +44,11 @@ body {
 .publication-hero {
   background: #ffffff;
   border-bottom: 1px solid rgb(219 227 234 / 0.65);
+}
+
+.publication-hero .hero-body {
+  padding-bottom: 3rem;
+  padding-top: 4.25rem;
 }
 
 .publication-title {
@@ -54,6 +70,17 @@ body {
   color: var(--ink);
   font-size: 1.05rem;
   font-weight: 600;
+}
+
+.author-link {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.author-link:hover {
+  color: var(--gold);
 }
 
 .venue-line {
@@ -102,7 +129,7 @@ body {
 
 .publication-banner {
   margin: 2rem auto 0;
-  max-width: 760px;
+  max-width: 900px;
 }
 
 .publication-banner img {
@@ -117,6 +144,14 @@ body {
   color: var(--muted);
   font-size: 0.88rem;
   margin-top: 0.75rem;
+}
+
+.hero-summary {
+  color: var(--ink);
+  font-size: 1.04rem;
+  line-height: 1.7;
+  margin: 1.4rem auto 0;
+  max-width: 860px;
 }
 
 .teaser-panel {
@@ -186,6 +221,14 @@ body {
   text-align: center;
 }
 
+.section-copy {
+  color: var(--ink);
+  font-size: 1.04rem;
+  line-height: 1.72;
+  margin: 1.2rem auto 0;
+  max-width: 880px;
+}
+
 .subsection-title {
   font-size: 1.08rem;
   font-weight: 800;
@@ -228,6 +271,37 @@ body {
 .paper-summary p {
   color: var(--muted);
   margin-bottom: 0.95rem;
+}
+
+.project-figure {
+  margin: 1.5rem auto 0;
+}
+
+.project-figure img {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  max-height: 720px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.wide-figure {
+  max-width: 960px;
+}
+
+.figure-grid {
+  align-items: center;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: 1.25rem;
+}
+
+.figure-grid .project-figure {
+  margin-top: 0;
 }
 
 .bibtex {
@@ -384,8 +458,22 @@ body {
 @media screen and (max-width: 900px) {
   .stat-grid,
   .task-list,
-  .figure-row {
+  .figure-row,
+  .figure-grid {
     grid-template-columns: 1fr;
+  }
+
+  .project-nav .navbar-menu {
+    display: block;
+    padding: 0.35rem 0.65rem 0.6rem;
+  }
+
+  .project-nav .navbar-end {
+    justify-content: flex-start;
+  }
+
+  .project-nav .navbar-item {
+    padding: 0.35rem 0.55rem;
   }
 
   .publication-title {

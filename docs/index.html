@@ -18,16 +18,19 @@
   <link rel="stylesheet" href="static/css/jawildtext.css">
 </head>
 <body>
-  <nav class="navbar is-white" aria-label="main navigation">
+  <nav class="navbar is-white project-nav" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" href="./">JaWildText</a>
       </div>
       <div class="navbar-menu is-active">
         <div class="navbar-end">
-          <a class="navbar-item" href="#paper">Paper</a>
-          <a class="navbar-item" href="#citation">Citation</a>
+          <a class="navbar-item" href="#abstract">Abstract</a>
+          <a class="navbar-item" href="#dataset">Dataset</a>
           <a class="navbar-item" href="#results">Results</a>
+          <a class="navbar-item" href="#analysis">Analysis</a>
+          <a class="navbar-item" href="#leaderboard">Leaderboard</a>
+          <a class="navbar-item" href="#citation">BibTeX</a>
           <a class="navbar-item" href="evaluation.html">Evaluation</a>
           <a class="navbar-item" href="https://github.com/llm-jp/jawildtext">GitHub</a>
         </div>
@@ -43,72 +46,141 @@
           <p class="publication-subtitle">
             A Benchmark for Vision-Language Models on Japanese Scene Text Understanding
           </p>
-          <div class="author-line">Koki Maeda · Naoaki Okazaki</div>
-          <div class="venue-line">arXiv:2603.27942 · Japanese scene text understanding benchmark</div>
+          <div class="author-line">
+            <a class="author-link" href="https://silviase.com">Koki Maeda</a> · Naoaki Okazaki
+          </div>
+          <div class="venue-line">ICDAR 2026 (to appear) · arXiv:2603.27942</div>
           <div class="publication-links">
-            <a class="button is-jawild" href="https://arxiv.org/abs/2603.27942">arXiv</a>
+            <a class="button is-jawild" href="https://arxiv.org/abs/2603.27942">Paper</a>
             <a class="button is-outline-jawild" href="https://arxiv.org/pdf/2603.27942">PDF</a>
-            <a class="button is-outline-jawild" href="evaluation.html">Evaluation</a>
             <a class="button is-outline-jawild" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+            <a class="button is-outline-jawild" href="https://huggingface.co/datasets/llm-jp/jawildtext">Dataset</a>
+            <a class="button is-outline-jawild" href="evaluation.html">Evaluation</a>
           </div>
           <p class="paper-meta">
             3,241 instances · 2,961 images · 1.12M annotated characters · 3,643 character types
           </p>
           <figure class="publication-banner">
-            <img src="assets/main_results_heatmap.png" alt="JaWildText main benchmark heatmap">
-            <figcaption>Main-paper benchmark results across Dense STVQA, Handwriting OCR, and Receipt KIE.</figcaption>
+            <img src="assets/jawildtext_figure_1.png" alt="JaWildText task overview">
+            <figcaption>JaWildText evaluates Dense STVQA, Receipt KIE, and Handwriting OCR on Japanese wild text.</figcaption>
+          </figure>
+          <p class="hero-summary">
+            Japanese scene text mixes kanji, kana, Latin characters, vertical layouts, handwriting,
+            receipts, signs, and dense public notices. JaWildText turns those conditions into a
+            diagnostic benchmark that separates recognition, reasoning, and formatting failures.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="abstract">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Abstract</h2>
+        <p class="section-copy">
+          JaWildText is a benchmark for evaluating how well vision-language models understand
+          Japanese scene text in real-world images. The benchmark contains <strong>3,241 instances</strong>
+          from <strong>2,961 images</strong>, with <strong>1.12 million annotated characters</strong> across
+          <strong>3,643 unique character types</strong>. It combines Dense Scene Text VQA,
+          Receipt Key Information Extraction, and Handwriting OCR so that failures can be traced
+          to recognition, reasoning, or output-formatting errors. Experiments on 14 open-weight
+          VLMs show that even the best model reaches only a <strong>0.64 average score</strong>,
+          with kanji recognition emerging as the largest bottleneck.
+        </p>
+      </div>
+    </section>
+
+    <section class="section is-soft" id="dataset">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">JaWildText Tasks</h2>
+        <figure class="project-figure wide-figure">
+          <img src="assets/jawildtext_figure_2.png" alt="Examples from the three JaWildText task subsets">
+        </figure>
+        <p class="section-copy">
+          Dense STVQA covers text-rich real-world images such as signs, posters, packages, and
+          bulletin boards. Receipt KIE evaluates structured extraction from Japanese receipts.
+          Handwriting OCR tests page-level transcription across paper, whiteboards, and tablets,
+          including horizontal and vertical writing.
+        </p>
+        <div class="task-list">
+          <div class="task-card">
+            <h3>Dense STVQA</h3>
+            <p>Open-ended visual question answering over dense Japanese scene text.</p>
+          </div>
+          <div class="task-card">
+            <h3>Receipt KIE</h3>
+            <p>JSON-style extraction of store, date, total, tax, and line-item fields.</p>
+          </div>
+          <div class="task-card">
+            <h3>Handwriting OCR</h3>
+            <p>Full-page transcription scored by normalized character error rate.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="statistics">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Dataset Statistics</h2>
+        <div class="figure-grid">
+          <figure class="project-figure">
+            <img src="assets/jawildtext_figure_3a.png" alt="Annotated character counts by image">
+          </figure>
+          <figure class="project-figure">
+            <img src="assets/jawildtext_figure_3b.png" alt="Text density distributions by task">
           </figure>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="paper">
-      <div class="container is-max-desktop">
-        <h2 class="section-title">Paper Summary</h2>
-        <div class="paper-summary">
-          <h3>Abstract</h3>
-          <p>The paper introduces <strong>JaWildText</strong>, a diagnostic benchmark for evaluating how well vision-language models understand Japanese scene text in real-world images. Japanese scene text is challenging because it mixes kanji, hiragana, katakana, Latin characters, vertical writing, dense layouts, and a large character inventory. The benchmark contains <strong>3,241 instances from 2,961 images</strong>, with <strong>1.12 million annotated characters</strong> across <strong>3,643 unique character types</strong>. It consists of Dense Scene Text VQA, Receipt Key Information Extraction, and Handwriting OCR. Experiments on 14 open-weight VLMs show that even the best model reaches only a <strong>0.64 average score</strong>, and the analysis identifies recognition, especially kanji recognition, as the main bottleneck.</p>
-
-          <h3>Introduction</h3>
-          <p>The introduction motivates a Japanese-specific diagnostic benchmark for scene text understanding. Traditional OCR systems first recognize text and then pass it to downstream modules, while modern VLMs attempt to solve tasks end-to-end directly from images. This makes evaluation harder because downstream errors may come from poor character recognition or from reasoning failures after correct recognition. Existing multilingual benchmarks include Japanese only superficially and do not capture Japanese-specific difficulties such as mixed scripts, vertical text, dense layouts, and thousands of kanji characters. JaWildText addresses this gap by separating recognition and reasoning failures across Dense STVQA, Receipt KIE, and Handwriting OCR.</p>
-
-          <h3>Related Work</h3>
-          <p>The paper situates JaWildText among prior benchmarks for scene text, document understanding, handwriting recognition, and Japanese multimodal evaluation. English resources include mature benchmarks for scene text recognition, text-centric VQA, receipt and document KIE, and handwriting recognition. Multilingual resources broaden language coverage, but generally lack deep language-specific diagnosis. Existing Japanese datasets cover isolated characters, vertical text, comics, receipts, scanned documents, or broader multimodal reasoning, but none jointly evaluates real-world Japanese scene text recognition and reasoning.</p>
-
-          <h3>Dataset</h3>
-          <p>JaWildText is designed to diagnose whether a model fails because of character recognition, layout understanding, reasoning, or output formatting. Dense STVQA uses cluttered real-world images such as signboards, bulletin boards, posters, and packages, and asks open-ended questions that often require combining evidence from multiple text regions. Receipt KIE evaluates structured extraction from mobile-captured Japanese receipts, including header fields and line-item information. Handwriting OCR evaluates page-level transcription of modern handwritten Japanese across paper, whiteboards, and tablets, including both horizontal and vertical writing. The dataset contains <strong>95,705 annotated text regions</strong> and <strong>1,117,514 characters</strong>, and covers <strong>1,985 of 2,136 Joyo kanji</strong> plus <strong>881 non-Joyo kanji</strong>.</p>
-
-          <h3>Experiments</h3>
-          <p>The experiments evaluate 14 open-weight VLMs from several model families, including Qwen3-VL, InternVL3.5, Gemma3, Phi-4-Multimodal, and Sarashina2.2-Vision. Models are tested with task-specific output formats: boxed answers for Dense STVQA, JSON for Receipt KIE, and plain text transcription for Handwriting OCR. Dense STVQA is scored with LLM-based binary judgment, Receipt KIE with F1 and field-level accuracy, and Handwriting OCR with character-level similarity based on CER. The best model, <strong>Qwen3-VL-8B</strong>, reaches an overall score of <strong>0.64</strong>, showing that Japanese scene text understanding remains far from solved.</p>
-
-          <h3>Analysis</h3>
-          <p>The analysis gives a deeper diagnosis of model failures. For Dense STVQA, the paper categorizes errors as Correct, Recognition Error, Reasoning Error, or Format Error. Recognition errors are the largest failure category for most models, showing that reading Japanese scene text remains the main bottleneck. For Handwriting OCR, the paper breaks CER down by script type and finds that <strong>kanji has the highest error rate</strong>, largely because of its large character inventory and visual complexity. The paper also compares general-purpose VLMs with OCR-specialized models and finds that robust real-world handwritten Japanese recognition remains difficult even for OCR-focused systems.</p>
-
-          <h3>Conclusion</h3>
-          <p>The conclusion positions JaWildText as a diagnostic benchmark for Japanese scene text understanding. Across Dense STVQA, Receipt KIE, and Handwriting OCR, even strong open-weight VLMs still struggle with Japanese text in real-world images. Fine-grained analyses show that recognition, especially kanji recognition, remains the dominant bottleneck. The paper argues that future progress will require targeted interventions based on detailed diagnosis rather than only aggregate task accuracy.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section is-soft" id="citation">
-      <div class="container is-max-desktop">
-        <h2 class="section-title">Citation</h2>
-        <p class="lead">Please cite the arXiv paper when using JaWildText or the released evaluation artifacts.</p>
-        <pre class="bibtex"><code>@misc{maeda2026jawildtext,
-  title={JaWildText: A Benchmark for Vision-Language Models on Japanese Scene Text Understanding},
-  author={Koki Maeda and Naoaki Okazaki},
-  year={2026},
-  eprint={2603.27942},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2603.27942}
-}</code></pre>
+        <figure class="project-figure wide-figure">
+          <img src="assets/jawildtext_figure_4.png" alt="Character type composition by JaWildText subset">
+        </figure>
+        <p class="section-copy">
+          JaWildText contains <strong>95,705 text regions</strong> and covers
+          <strong>1,985 of 2,136 Joyo kanji</strong> plus <strong>881 non-Joyo kanji</strong>.
+          The subsets stress different mixtures of kanji, kana, digits, Latin characters,
+          short dense notices, long receipts, and free-form handwriting.
+        </p>
       </div>
     </section>
 
     <section class="section" id="results">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Main Results</h2>
+        <figure class="project-figure wide-figure">
+          <img src="assets/jawildtext_figure_5.png" alt="Main JaWildText model results by task and model size">
+        </figure>
+        <p class="section-copy">
+          The main paper evaluates 14 open-weight VLMs with task-specific prompts and scoring:
+          LLM-based binary judging for Dense STVQA, token-level F1 for Receipt KIE, and
+          character-level similarity for Handwriting OCR. Larger models help, but the gap to
+          reliable Japanese wild-text understanding remains substantial.
+        </p>
+      </div>
+    </section>
+
+    <section class="section is-soft" id="analysis">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Error Analysis</h2>
+        <div class="figure-grid">
+          <figure class="project-figure">
+            <img src="assets/jawildtext_figure_6.png" alt="Dense STVQA error analysis">
+          </figure>
+          <figure class="project-figure">
+            <img src="assets/jawildtext_figure_7.png" alt="Handwriting OCR character-type CER analysis">
+          </figure>
+        </div>
+        <figure class="project-figure wide-figure">
+          <img src="assets/jawildtext_figure_8.png" alt="Representative Handwriting OCR failure cases">
+        </figure>
+        <p class="section-copy">
+          Recognition errors dominate Dense STVQA failures, while Handwriting OCR exposes
+          character-level weaknesses for kanji and visually similar scripts. These analyses
+          make JaWildText a diagnostic benchmark rather than only a leaderboard.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="leaderboard">
       <div class="container content-frame">
-        <h2 class="section-title">Evaluation Results</h2>
+        <h2 class="section-title">Extended Leaderboard</h2>
         <p class="lead">
           The public extended export lists 76 models. Dense STVQA uses the <code>jawildtext-board-vqa-gptoss</code>
           result root with <code>openai/gpt-oss-20b</code> as verifier; Handwriting OCR and Receipt KIE use task-specific scorers.
@@ -118,9 +190,6 @@
           <div class="stat-card"><span class="stat-value">73</span><span class="stat-label">Handwriting OCR</span></div>
           <div class="stat-card"><span class="stat-value">68</span><span class="stat-label">Receipt KIE</span></div>
           <div class="stat-card"><span class="stat-value">68</span><span class="stat-label">All three columns</span></div>
-        </div>
-        <div class="teaser-panel">
-          <img src="assets/extended_top_models.png" alt="Extended JaWildText leaderboard top models">
         </div>
         <div class="table-wrap">
           <table class="leaderboard-table">
@@ -905,6 +974,20 @@
           <a href="https://github.com/llm-jp/jawildtext/blob/main/results/extended_leaderboard_gptoss.json">extended_leaderboard_gptoss.json</a>.
           The count of 68 complete rows means all three aggregate columns are available; it does not mean all three tasks were judged by gpt-oss.
         </p>
+      </div>
+    </section>
+
+    <section class="section is-soft" id="citation">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">BibTeX</h2>
+        <p class="lead">Please cite the paper when using JaWildText or the released evaluation artifacts.</p>
+        <pre class="bibtex"><code>@inproceedings{maeda-etal-2026-jawildtext,
+  title     = {{JaWildText}: A Benchmark for Vision-Language Models on Japanese Scene Text Understanding},
+  author    = {Maeda, Koki and Okazaki, Naoaki},
+  booktitle = {Proceedings of the 20th International Conference on Document Analysis and Recognition (ICDAR)},
+  year      = {2026},
+  note      = {To appear}
+}</code></pre>
       </div>
     </section>
   </main>
