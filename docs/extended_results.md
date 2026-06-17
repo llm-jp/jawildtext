@@ -1,6 +1,6 @@
 # Extended Results
 
-Generated at: `2026-06-01T00:56:56+00:00`
+Generated at: `2026-06-17T07:36:52+00:00`
 
 This page documents extended JaWildText aggregate results beyond the 14-model main-paper table.
 Dense STVQA scores in these artifacts use `openai/gpt-oss-20b` with `reasoning_effort=low` as the public verifier.
@@ -17,11 +17,11 @@ Handwriting OCR and Receipt KIE use the standard task scorers.
 
 | Artifact | Rows |
 | :--- | ---: |
-| Models with at least one JaWildText aggregate score | 56 |
-| Models with all three task scores in this export | 13 |
-| Dense STVQA gpt-oss aggregate scores | 17 |
-| Handwriting OCR aggregate scores | 52 |
-| Receipt KIE aggregate scores | 52 |
+| Models with at least one JaWildText aggregate score | 76 |
+| Models with all three task scores in this export | 68 |
+| Dense STVQA gpt-oss aggregate scores | 72 |
+| Handwriting OCR aggregate scores | 73 |
+| Receipt KIE aggregate scores | 68 |
 
 ## Provenance
 
