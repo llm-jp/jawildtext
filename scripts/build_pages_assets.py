@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import textwrap
 from pathlib import Path
@@ -124,29 +125,6 @@ def save_extended_top_bar(extended_payload: dict, out_path: Path, limit: int = 1
     plt.close(fig)
 
 
-def save_family_bar(family_payload: dict, out_path: Path, limit: int = 12) -> None:
-    rows = [
-        item
-        for item in family_payload["families"]
-        if item.get("mean_available_score") is not None
-    ][:limit]
-    rows = list(reversed(rows))
-    labels = [item["family"] for item in rows]
-    values = [item["mean_available_score"] for item in rows]
-    counts = [item["models"] for item in rows]
-
-    fig, ax = plt.subplots(figsize=(8.5, 5.8))
-    ax.barh(labels, values, color="#2f6f73")
-    ax.set_xlim(0, 1)
-    ax.set_xlabel("Mean score over available task scores")
-    ax.set_title("Model-Family Summary", pad=12, weight="bold")
-    for y, (value, count) in enumerate(zip(values, counts, strict=True)):
-        ax.text(min(value + 0.015, 0.98), y, f"{value:.3f} ({count} models)", va="center", fontsize=9)
-    fig.tight_layout()
-    fig.savefig(out_path, dpi=180)
-    plt.close(fig)
-
-
 def main_table(main_payload: dict) -> str:
     rows = []
     for row in main_payload["results"]:
@@ -167,9 +145,10 @@ def main_table(main_payload: dict) -> str:
     )
 
 
-def extended_table(extended_payload: dict, limit: int = 20) -> str:
+def extended_table(extended_payload: dict, limit: int | None = None) -> str:
     rows = []
-    for rank, row in enumerate(extended_payload["results"][:limit], start=1):
+    source_rows = extended_payload["results"] if limit is None else extended_payload["results"][:limit]
+    for rank, row in enumerate(source_rows, start=1):
         scores = row.get("scores", {})
         rows.append(
             [
@@ -233,56 +212,221 @@ def write_leaderboard_page(output_root: Path, main_payload: dict, extended_paylo
         "",
         coverage_table(extended_payload),
         "",
-        "## Family View",
-        "",
-        "![Model-family summary](assets/family_summary.png)",
-        "",
     ]
     (docs_dir / "leaderboard.md").write_text("\n".join(page), encoding="utf-8")
 
 
-def write_index(output_root: Path) -> None:
+def html_score(value: float | None) -> str:
+    return "--" if value is None else f"{value:.3f}"
+
+
+def index_result_rows(extended_payload: dict) -> str:
+    table_rows = []
+    for rank, row in enumerate(extended_payload["results"], start=1):
+        scores = row.get("scores", {})
+        table_rows.append(
+            "              <tr>\n"
+            f"                <td class=\"is-number\">{rank}</td>\n"
+            f"                <td>{html.escape(row['display_name'])}</td>\n"
+            f"                <td>{html.escape(row['family'])}</td>\n"
+            f"                <td class=\"is-number\">{html_score(row.get('mean_score'))}</td>\n"
+            f"                <td class=\"is-number\">{html_score(scores.get('dense_stvqa_gptoss'))}</td>\n"
+            f"                <td class=\"is-number\">{html_score(scores.get('handwriting_ocr'))}</td>\n"
+            f"                <td class=\"is-number\">{html_score(scores.get('receipt_kie'))}</td>\n"
+            f"                <td class=\"is-number\">{len(scores)}</td>\n"
+            "              </tr>"
+        )
+    return "\n".join(table_rows)
+
+
+def write_index(output_root: Path, extended_payload: dict) -> None:
     docs_dir = output_root / "docs"
-    page = [
-        "---",
-        "layout: home",
-        "title: JaWildText Evaluation",
-        "---",
-        "",
-        "# JaWildText Evaluation",
-        "",
-        "JaWildText is a benchmark for Japanese wild-text understanding with three complementary tasks: Dense STVQA, Receipt KIE, and Handwriting OCR.",
-        "",
-        f"This site is the public evaluation companion for the release repository. It follows the same information architecture as public LLM evaluation pages such as the [Swallow evaluation overview]({SWALLOW_EVAL_URL}): motivation, task descriptions, evaluation tools, model coverage, result tables, and visual summaries are documented in separate but linked sections.",
-        "",
-        "## What This Site Documents",
-        "",
-        "- Motivation: why Japanese wild-text understanding needs a dedicated benchmark.",
-        "- Tasks: Dense STVQA, Receipt KIE, and Handwriting OCR.",
-        "- Evaluation protocol: prompts, normalization, metrics, and judge provenance.",
-        "- Model coverage: main-paper models and extended leaderboard models are separated.",
-        "- Results: Markdown tables, machine-readable JSON, and matplotlib visual summaries.",
-        "",
-        "## Pages",
-        "",
-        "- [Evaluation Protocol](evaluation.md): task definitions, prompts, metrics, and judge provenance.",
-        "- [Leaderboard](leaderboard.md): Markdown tables and generated matplotlib visualizations.",
-        "- [Extended Results](extended_results.md): extended aggregate leaderboard and coverage notes.",
-        "- [Result Schema](result_schema.md): machine-readable aggregate result schema.",
-        "- [Release Results](results.md): provenance notes and included artifacts.",
-        "",
-        "## Result Artifacts",
-        "",
-        f"- [`results/main_results.md`]({REPO_BLOB_ROOT}/results/main_results.md): main 14-model benchmark table.",
-        f"- [`results/extended_leaderboard_gptoss.md`]({REPO_BLOB_ROOT}/results/extended_leaderboard_gptoss.md): extended leaderboard using the public gpt-oss Dense STVQA judge root.",
-        f"- [`results/family_summary_gptoss.md`]({REPO_BLOB_ROOT}/results/family_summary_gptoss.md): model-family aggregate summary.",
-        "",
-        "## Deployment",
-        "",
-        "The repository includes a GitHub Pages workflow that builds this `docs/` directory with Jekyll and deploys it from GitHub Actions.",
-        "",
-    ]
-    (docs_dir / "index.md").write_text("\n".join(page), encoding="utf-8")
+    rows = extended_payload["results"]
+    dense_count = sum(1 for row in rows if "dense_stvqa_gptoss" in row.get("scores", {}))
+    handwriting_count = sum(1 for row in rows if "handwriting_ocr" in row.get("scores", {}))
+    receipt_count = sum(1 for row in rows if "receipt_kie" in row.get("scores", {}))
+    complete_count = sum(1 for row in rows if len(row.get("scores", {})) == len(EXTENDED_TASK_COLUMNS))
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="JaWildText: Japanese Scene Text Understanding Benchmark">
+  <meta name="description" content="Project page for JaWildText, a benchmark for Japanese scene text understanding with Dense STVQA, Receipt KIE, and Handwriting OCR tasks.">
+  <meta name="keywords" content="JaWildText, Japanese OCR, scene text VQA, document AI, multimodal evaluation, VLM benchmark">
+  <meta name="author" content="Koki Maeda, Naoaki Okazaki">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="LLM-jp">
+  <meta property="og:title" content="JaWildText">
+  <meta property="og:description" content="A benchmark for Japanese scene text understanding across Dense STVQA, Receipt KIE, and Handwriting OCR.">
+  <meta property="og:url" content="https://llm-jp.github.io/jawildtext/">
+  <meta name="twitter:card" content="summary">
+  <title>JaWildText | Japanese Scene Text Understanding Benchmark</title>
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/jawildtext.css">
+</head>
+<body>
+  <nav class="navbar is-white" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="./">JaWildText</a>
+      </div>
+      <div class="navbar-menu is-active">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#paper">Paper</a>
+          <a class="navbar-item" href="#citation">Citation</a>
+          <a class="navbar-item" href="#results">Results</a>
+          <a class="navbar-item" href="evaluation.html">Evaluation</a>
+          <a class="navbar-item" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero publication-hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="publication-title">JaWildText</h1>
+          <p class="publication-subtitle">
+            A Benchmark for Vision-Language Models on Japanese Scene Text Understanding
+          </p>
+          <div class="author-line">Koki Maeda · Naoaki Okazaki</div>
+          <div class="venue-line">arXiv:2603.27942 · Japanese scene text understanding benchmark</div>
+          <div class="publication-links">
+            <a class="button is-jawild" href="https://arxiv.org/abs/2603.27942">arXiv</a>
+            <a class="button is-outline-jawild" href="https://arxiv.org/pdf/2603.27942">PDF</a>
+            <a class="button is-outline-jawild" href="evaluation.html">Evaluation</a>
+            <a class="button is-outline-jawild" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+          </div>
+          <div class="stat-grid" aria-label="Dataset and result coverage">
+            <div class="stat-card">
+              <span class="stat-value">3,241</span>
+              <span class="stat-label">Evaluation instances</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">2,961</span>
+              <span class="stat-label">Images</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">1.12M</span>
+              <span class="stat-label">Annotated characters</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">76</span>
+              <span class="stat-label">Models in public export</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="paper">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Paper Summary</h2>
+        <div class="summary-grid">
+          <article class="summary-card">
+            <h3>Abstract</h3>
+            <p>JaWildText targets Japanese scene text, where mixed scripts, vertical writing, and a large character inventory make multilingual benchmarks insufficient for diagnosis.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Introduction</h3>
+            <p>The benchmark is designed to separate recognition errors from reasoning errors, rather than reporting only downstream task accuracy.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Dataset</h3>
+            <p>It contains Dense STVQA, Receipt KIE, and Handwriting OCR examples collected in Japan, with detailed text-region and task annotations.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Experiments</h3>
+            <p>The paper benchmarks 14 open-weight VLMs and reports an average score of 0.64 for the best model across the three main tasks.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Analysis</h3>
+            <p>Error analysis shows that recognition remains the dominant bottleneck, especially for kanji, and that failures vary by script and model family.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Conclusion</h3>
+            <p>JaWildText provides a compact diagnostic benchmark for Japanese visual text understanding and reproducible evaluation code.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-soft" id="citation">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Citation</h2>
+        <p class="lead">Please cite the arXiv paper when using JaWildText or the released evaluation artifacts.</p>
+        <pre class="bibtex"><code>@misc{{maeda2026jawildtext,
+  title={{JaWildText: A Benchmark for Vision-Language Models on Japanese Scene Text Understanding}},
+  author={{Koki Maeda and Naoaki Okazaki}},
+  year={{2026}},
+  eprint={{2603.27942}},
+  archivePrefix={{arXiv}},
+  primaryClass={{cs.CV}},
+  url={{https://arxiv.org/abs/2603.27942}}
+}}</code></pre>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container is-fluid page-wide">
+        <h2 class="section-title">Evaluation Results</h2>
+        <p class="lead">
+          The public extended export lists {len(rows)} models. Dense STVQA uses the <code>jawildtext-board-vqa-gptoss</code>
+          result root with <code>openai/gpt-oss-20b</code> as verifier; Handwriting OCR and Receipt KIE use task-specific scorers.
+        </p>
+        <div class="stat-grid compact-stats" aria-label="Extended result coverage">
+          <div class="stat-card"><span class="stat-value">{dense_count}</span><span class="stat-label">Dense STVQA gpt-oss</span></div>
+          <div class="stat-card"><span class="stat-value">{handwriting_count}</span><span class="stat-label">Handwriting OCR</span></div>
+          <div class="stat-card"><span class="stat-value">{receipt_count}</span><span class="stat-label">Receipt KIE</span></div>
+          <div class="stat-card"><span class="stat-value">{complete_count}</span><span class="stat-label">All three columns</span></div>
+        </div>
+        <div class="teaser-panel">
+          <img src="assets/extended_top_models.png" alt="Extended JaWildText leaderboard top models">
+        </div>
+        <div class="table-wrap">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th class="is-number">Rank</th>
+                <th>Model</th>
+                <th>Family</th>
+                <th class="is-number">Mean</th>
+                <th class="is-number">Dense STVQA</th>
+                <th class="is-number">Handwriting OCR</th>
+                <th class="is-number">Receipt KIE</th>
+                <th class="is-number">Tasks</th>
+              </tr>
+            </thead>
+            <tbody>
+{index_result_rows(extended_payload)}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">
+          Machine-readable rows are available in
+          <a href="https://github.com/llm-jp/jawildtext/blob/main/results/extended_leaderboard_gptoss.json">extended_leaderboard_gptoss.json</a>.
+          The count of {complete_count} complete rows means all three aggregate columns are available; it does not mean all three tasks were judged by gpt-oss.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <p>
+        JaWildText release materials are maintained in
+        <a href="https://github.com/llm-jp/jawildtext">llm-jp/jawildtext</a>.
+        The project-page layout is inspired by the
+        <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
+"""
+    (docs_dir / "index.html").write_text(page, encoding="utf-8")
 
 
 def main() -> None:
@@ -298,13 +442,11 @@ def main() -> None:
 
     main_payload = load_json(output_root / "results" / "main_results.json")
     extended_payload = load_json(output_root / "results" / "extended_leaderboard_gptoss.json")
-    family_payload = load_json(output_root / "results" / "family_summary_gptoss.json")
 
     save_main_heatmap(main_payload, assets_dir / "main_results_heatmap.png")
     save_extended_top_bar(extended_payload, assets_dir / "extended_top_models.png")
-    save_family_bar(family_payload, assets_dir / "family_summary.png")
     write_leaderboard_page(output_root, main_payload, extended_payload)
-    write_index(output_root)
+    write_index(output_root, extended_payload)
 
 
 if __name__ == "__main__":

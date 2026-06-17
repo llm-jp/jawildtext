@@ -12,18 +12,17 @@ This repository is the release bundle for evaluation documentation, prompts, res
 
 ## Contents
 
-- `docs/index.md`: GitHub Pages entry point.
+- `docs/index.html`: GitHub Pages project-page entry point.
 - `docs/evaluation.md`: task definitions, prompts, and scoring protocol.
 - `docs/leaderboard.md`: public tables and generated visual summaries.
 - `docs/results.md`: benchmark result summary and provenance notes.
-- `docs/extended_results.md`: extended leaderboard and model-family summary.
+- `docs/extended_results.md`: extended leaderboard coverage summary.
 - `docs/result_schema.md`: expected aggregate result schema.
 - `docs/assets/`: generated matplotlib figures for public pages.
 - `results/main_results.md`: main benchmark table.
 - `results/main_results.json`: machine-readable main benchmark table.
 - `results/receipt_kie_fields.md`: Receipt KIE field-level table.
 - `results/extended_leaderboard_gptoss.md`: extended aggregate table with Dense STVQA re-judged by `gpt-oss-20b`.
-- `results/family_summary_gptoss.md`: model-family aggregate summary.
 - `scripts/build_pages_assets.py`: regenerates GitHub Pages tables and figures from `results/*.json`.
 - `scripts/export_extended_results.py`: regenerates extended result artifacts from aggregate eval outputs.
 
@@ -67,13 +66,13 @@ Aggregate result tables and documented prompts are allowed.
 
 ## GitHub Pages
 
-The public pages are generated from the checked-in result JSON files:
+The public site is served from the `/docs` folder on the `main` branch. The landing page follows an academic project-page layout, while result figures are generated from the checked-in result JSON files:
 
 ```bash
 python scripts/build_pages_assets.py --output-root .
 ```
 
-The repository includes a GitHub Actions workflow in `.github/workflows/pages.yml` that builds `docs/` with Jekyll and deploys it to GitHub Pages.
+The GitHub Pages repository setting should use `main` / `docs` as the publishing source.
 
 ## License
 

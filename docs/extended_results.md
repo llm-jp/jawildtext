@@ -10,8 +10,6 @@ Handwriting OCR and Receipt KIE use the standard task scorers.
 
 - `results/extended_leaderboard_gptoss.md`: full aggregate table.
 - `results/extended_leaderboard_gptoss.json`: machine-readable rows with source roots.
-- `results/family_summary_gptoss.md`: model-family summary.
-- `results/family_summary_gptoss.json`: machine-readable family summary.
 
 ## Coverage
 

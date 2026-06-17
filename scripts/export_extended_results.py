@@ -10,7 +10,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -300,113 +299,7 @@ def write_leaderboard(rows: list[Row], out_dir: Path, generated_at: str) -> None
     )
 
 
-def family_summary(rows: list[Row]) -> list[dict]:
-    by_family: dict[str, list[Row]] = defaultdict(list)
-    for row in rows:
-        by_family[row.family].append(row)
-    summary: list[dict] = []
-    for family, family_rows in sorted(by_family.items()):
-        entry: dict = {"family": family, "models": len(family_rows)}
-        all_task_values: list[float] = []
-        for task_key in TASKS:
-            values = [(r.scores[task_key], r) for r in family_rows if task_key in r.scores]
-            if not values:
-                entry[task_key] = None
-                continue
-            best_score, best_row = max(values, key=lambda item: item[0])
-            avg_score = sum(score for score, _ in values) / len(values)
-            all_task_values.extend(score for score, _ in values)
-            entry[task_key] = {
-                "models": len(values),
-                "average": avg_score,
-                "best": best_score,
-                "best_model": best_row.model_id,
-            }
-        entry["mean_available_score"] = (
-            sum(all_task_values) / len(all_task_values) if all_task_values else None
-        )
-        summary.append(entry)
-    summary.sort(
-        key=lambda item: (
-            -(item["mean_available_score"] if item["mean_available_score"] is not None else -1.0),
-            item["family"],
-        )
-    )
-    return summary
-
-
-def write_family_summary(rows: list[Row], out_dir: Path, generated_at: str) -> list[dict]:
-    summary = family_summary(rows)
-    headers = [
-        "Family",
-        "Models",
-        "Mean (available)",
-        "Dense STVQA avg",
-        "Dense STVQA best",
-        "HW OCR avg",
-        "HW OCR best",
-        "Receipt KIE avg",
-        "Receipt KIE best",
-    ]
-    table_rows: list[list[str]] = []
-    for item in summary:
-        def avg(task_key: str) -> str:
-            task = item.get(task_key)
-            return fmt_score(task["average"]) if task else "--"
-
-        def best(task_key: str) -> str:
-            task = item.get(task_key)
-            if not task:
-                return "--"
-            return f"{fmt_score(task['best'])} ({display_name(task['best_model'])})"
-
-        table_rows.append(
-            [
-                item["family"],
-                str(item["models"]),
-                fmt_score(item["mean_available_score"]),
-                avg("dense_stvqa_gptoss"),
-                best("dense_stvqa_gptoss"),
-                avg("handwriting_ocr"),
-                best("handwriting_ocr"),
-                avg("receipt_kie"),
-                best("receipt_kie"),
-            ]
-        )
-    body = [
-        "# Model Family Summary",
-        "",
-        f"Generated at: `{generated_at}`",
-        "",
-        markdown_table(
-            headers,
-            table_rows,
-            [":---", "---:", "---:", "---:", ":---", "---:", ":---", "---:", ":---"],
-        ),
-        "",
-    ]
-    (out_dir / "family_summary_gptoss.md").write_text("\n".join(body), encoding="utf-8")
-    (out_dir / "family_summary_gptoss.json").write_text(
-        json.dumps(
-            {
-                "generated_at": generated_at,
-                "dataset": "llm-jp/jawildtext",
-                "dense_stvqa_judge": {
-                    "judge_model": "openai/gpt-oss-20b",
-                    "reasoning_effort": "low",
-                },
-                "families": summary,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    return summary
-
-
-def write_docs(out_root: Path, rows: list[Row], summary: list[dict], generated_at: str) -> None:
+def write_docs(out_root: Path, rows: list[Row], generated_at: str) -> None:
     complete_rows = [row for row in rows if len(row.scores) == len(TASKS)]
     body = [
         "# Extended Results",
@@ -421,8 +314,6 @@ def write_docs(out_root: Path, rows: list[Row], summary: list[dict], generated_a
         "",
         "- `results/extended_leaderboard_gptoss.md`: full aggregate table.",
         "- `results/extended_leaderboard_gptoss.json`: machine-readable rows with source roots.",
-        "- `results/family_summary_gptoss.md`: model-family summary.",
-        "- `results/family_summary_gptoss.json`: machine-readable family summary.",
         "",
         "## Coverage",
         "",
@@ -483,8 +374,7 @@ def main() -> None:
     generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     rows = collect_rows(args.result_root)
     write_leaderboard(rows, results_dir, generated_at)
-    summary = write_family_summary(rows, results_dir, generated_at)
-    write_docs(output_root, rows, summary, generated_at)
+    write_docs(output_root, rows, generated_at)
 
 
 if __name__ == "__main__":

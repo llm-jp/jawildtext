@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="JaWildText: Japanese Scene Text Understanding Benchmark">
+  <meta name="description" content="Project page for JaWildText, a benchmark for Japanese scene text understanding with Dense STVQA, Receipt KIE, and Handwriting OCR tasks.">
+  <meta name="keywords" content="JaWildText, Japanese OCR, scene text VQA, document AI, multimodal evaluation, VLM benchmark">
+  <meta name="author" content="Koki Maeda, Naoaki Okazaki">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="LLM-jp">
+  <meta property="og:title" content="JaWildText">
+  <meta property="og:description" content="A benchmark for Japanese scene text understanding across Dense STVQA, Receipt KIE, and Handwriting OCR.">
+  <meta property="og:url" content="https://llm-jp.github.io/jawildtext/">
+  <meta name="twitter:card" content="summary">
+  <title>JaWildText | Japanese Scene Text Understanding Benchmark</title>
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/jawildtext.css">
+</head>
+<body>
+  <nav class="navbar is-white" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="./">JaWildText</a>
+      </div>
+      <div class="navbar-menu is-active">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#paper">Paper</a>
+          <a class="navbar-item" href="#citation">Citation</a>
+          <a class="navbar-item" href="#results">Results</a>
+          <a class="navbar-item" href="evaluation.html">Evaluation</a>
+          <a class="navbar-item" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero publication-hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="publication-title">JaWildText</h1>
+          <p class="publication-subtitle">
+            A Benchmark for Vision-Language Models on Japanese Scene Text Understanding
+          </p>
+          <div class="author-line">Koki Maeda · Naoaki Okazaki</div>
+          <div class="venue-line">arXiv:2603.27942 · Japanese scene text understanding benchmark</div>
+          <div class="publication-links">
+            <a class="button is-jawild" href="https://arxiv.org/abs/2603.27942">arXiv</a>
+            <a class="button is-outline-jawild" href="https://arxiv.org/pdf/2603.27942">PDF</a>
+            <a class="button is-outline-jawild" href="evaluation.html">Evaluation</a>
+            <a class="button is-outline-jawild" href="https://github.com/llm-jp/jawildtext">GitHub</a>
+          </div>
+          <div class="stat-grid" aria-label="Dataset and result coverage">
+            <div class="stat-card">
+              <span class="stat-value">3,241</span>
+              <span class="stat-label">Evaluation instances</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">2,961</span>
+              <span class="stat-label">Images</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">1.12M</span>
+              <span class="stat-label">Annotated characters</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">76</span>
+              <span class="stat-label">Models in public export</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="paper">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Paper Summary</h2>
+        <div class="summary-grid">
+          <article class="summary-card">
+            <h3>Abstract</h3>
+            <p>JaWildText targets Japanese scene text, where mixed scripts, vertical writing, and a large character inventory make multilingual benchmarks insufficient for diagnosis.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Introduction</h3>
+            <p>The benchmark is designed to separate recognition errors from reasoning errors, rather than reporting only downstream task accuracy.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Dataset</h3>
+            <p>It contains Dense STVQA, Receipt KIE, and Handwriting OCR examples collected in Japan, with detailed text-region and task annotations.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Experiments</h3>
+            <p>The paper benchmarks 14 open-weight VLMs and reports an average score of 0.64 for the best model across the three main tasks.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Analysis</h3>
+            <p>Error analysis shows that recognition remains the dominant bottleneck, especially for kanji, and that failures vary by script and model family.</p>
+          </article>
+          <article class="summary-card">
+            <h3>Conclusion</h3>
+            <p>JaWildText provides a compact diagnostic benchmark for Japanese visual text understanding and reproducible evaluation code.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-soft" id="citation">
+      <div class="container is-max-desktop">
+        <h2 class="section-title">Citation</h2>
+        <p class="lead">Please cite the arXiv paper when using JaWildText or the released evaluation artifacts.</p>
+        <pre class="bibtex"><code>@misc{maeda2026jawildtext,
+  title={JaWildText: A Benchmark for Vision-Language Models on Japanese Scene Text Understanding},
+  author={Koki Maeda and Naoaki Okazaki},
+  year={2026},
+  eprint={2603.27942},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2603.27942}
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container is-fluid page-wide">
+        <h2 class="section-title">Evaluation Results</h2>
+        <p class="lead">
+          The public extended export lists 76 models. Dense STVQA uses the <code>jawildtext-board-vqa-gptoss</code>
+          result root with <code>openai/gpt-oss-20b</code> as verifier; Handwriting OCR and Receipt KIE use task-specific scorers.
+        </p>
+        <div class="stat-grid compact-stats" aria-label="Extended result coverage">
+          <div class="stat-card"><span class="stat-value">72</span><span class="stat-label">Dense STVQA gpt-oss</span></div>
+          <div class="stat-card"><span class="stat-value">73</span><span class="stat-label">Handwriting OCR</span></div>
+          <div class="stat-card"><span class="stat-value">68</span><span class="stat-label">Receipt KIE</span></div>
+          <div class="stat-card"><span class="stat-value">68</span><span class="stat-label">All three columns</span></div>
+        </div>
+        <div class="teaser-panel">
+          <img src="assets/extended_top_models.png" alt="Extended JaWildText leaderboard top models">
+        </div>
+        <div class="table-wrap">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th class="is-number">Rank</th>
+                <th>Model</th>
+                <th>Family</th>
+                <th class="is-number">Mean</th>
+                <th class="is-number">Dense STVQA</th>
+                <th class="is-number">Handwriting OCR</th>
+                <th class="is-number">Receipt KIE</th>
+                <th class="is-number">Tasks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="is-number">1</td>
+                <td>Gemini 3 Flash Preview</td>
+                <td>Closed</td>
+                <td class="is-number">0.776</td>
+                <td class="is-number">0.889</td>
+                <td class="is-number">0.772</td>
+                <td class="is-number">0.667</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">2</td>
+                <td>Claude Sonnet 4.6</td>
+                <td>Closed</td>
+                <td class="is-number">0.685</td>
+                <td class="is-number">0.768</td>
+                <td class="is-number">0.696</td>
+                <td class="is-number">0.592</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">3</td>
+                <td>nanonets/Nanonets-OCR-s</td>
+                <td>nanonets</td>
+                <td class="is-number">0.634</td>
+                <td class="is-number">--</td>
+                <td class="is-number">0.634</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">4</td>
+                <td>Gemma-4-26B-A4B-it</td>
+                <td>google</td>
+                <td class="is-number">0.633</td>
+                <td class="is-number">0.538</td>
+                <td class="is-number">0.728</td>
+                <td class="is-number">--</td>
+                <td class="is-number">2</td>
+              </tr>
+              <tr>
+                <td class="is-number">5</td>
+                <td>GPT-5.4-mini</td>
+                <td>Closed</td>
+                <td class="is-number">0.617</td>
+                <td class="is-number">0.500</td>
+                <td class="is-number">0.750</td>
+                <td class="is-number">0.603</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">6</td>
+                <td>tencent/HunyuanOCR</td>
+                <td>tencent</td>
+                <td class="is-number">0.614</td>
+                <td class="is-number">--</td>
+                <td class="is-number">0.614</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">7</td>
+                <td>Qwen3-VL-8B-Instruct</td>
+                <td>Qwen3-VL</td>
+                <td class="is-number">0.606</td>
+                <td class="is-number">0.665</td>
+                <td class="is-number">0.771</td>
+                <td class="is-number">0.383</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">8</td>
+                <td>Qwen3.5-35B-A3B</td>
+                <td>Qwen3.5</td>
+                <td class="is-number">0.605</td>
+                <td class="is-number">0.648</td>
+                <td class="is-number">0.754</td>
+                <td class="is-number">0.415</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">9</td>
+                <td>Qwen3-VL-32B-Instruct</td>
+                <td>Qwen3-VL</td>
+                <td class="is-number">0.601</td>
+                <td class="is-number">0.633</td>
+                <td class="is-number">0.772</td>
+                <td class="is-number">0.397</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">10</td>
+                <td>Qwen2.5-VL-72B-Instruct</td>
+                <td>Qwen2.5-VL</td>
+                <td class="is-number">0.592</td>
+                <td class="is-number">0.600</td>
+                <td class="is-number">0.772</td>
+                <td class="is-number">0.405</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">11</td>
+                <td>Gemma-4-31B-it</td>
+                <td>google</td>
+                <td class="is-number">0.577</td>
+                <td class="is-number">0.609</td>
+                <td class="is-number">0.721</td>
+                <td class="is-number">0.402</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">12</td>
+                <td>Qwen3.5-9B</td>
+                <td>Qwen3.5</td>
+                <td class="is-number">0.569</td>
+                <td class="is-number">0.568</td>
+                <td class="is-number">0.757</td>
+                <td class="is-number">0.384</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">13</td>
+                <td>Qwen3-VL-4B-Instruct</td>
+                <td>Qwen3-VL</td>
+                <td class="is-number">0.559</td>
+                <td class="is-number">0.575</td>
+                <td class="is-number">0.754</td>
+                <td class="is-number">0.349</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">14</td>
+                <td>Qwen2-VL-72B-Instruct</td>
+                <td>Qwen2-VL</td>
+                <td class="is-number">0.537</td>
+                <td class="is-number">0.448</td>
+                <td class="is-number">0.743</td>
+                <td class="is-number">0.420</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">15</td>
+                <td>Qwen2.5-VL-7B-Instruct</td>
+                <td>Qwen2.5-VL</td>
+                <td class="is-number">0.528</td>
+                <td class="is-number">0.422</td>
+                <td class="is-number">0.757</td>
+                <td class="is-number">0.405</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">16</td>
+                <td>Qwen3-VL-30B-A3B-Instruct</td>
+                <td>Qwen3-VL</td>
+                <td class="is-number">0.526</td>
+                <td class="is-number">0.554</td>
+                <td class="is-number">0.769</td>
+                <td class="is-number">0.254</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">17</td>
+                <td>sbintuitions/sarashina2.2-ocr</td>
+                <td>Sarashina2.2</td>
+                <td class="is-number">0.516</td>
+                <td class="is-number">--</td>
+                <td class="is-number">0.516</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">18</td>
+                <td>InternVL3-78B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.516</td>
+                <td class="is-number">0.502</td>
+                <td class="is-number">0.692</td>
+                <td class="is-number">0.354</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">19</td>
+                <td>Qwen2.5-VL-32B-Instruct</td>
+                <td>Qwen2.5-VL</td>
+                <td class="is-number">0.511</td>
+                <td class="is-number">0.465</td>
+                <td class="is-number">0.673</td>
+                <td class="is-number">0.396</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">20</td>
+                <td>InternVL3-38B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.507</td>
+                <td class="is-number">0.464</td>
+                <td class="is-number">0.676</td>
+                <td class="is-number">0.382</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">21</td>
+                <td>InternVL3.5-8B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.506</td>
+                <td class="is-number">0.420</td>
+                <td class="is-number">0.702</td>
+                <td class="is-number">0.396</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">22</td>
+                <td>InternVL3.5-38B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.497</td>
+                <td class="is-number">0.406</td>
+                <td class="is-number">0.697</td>
+                <td class="is-number">0.387</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">23</td>
+                <td>InternVL3-14B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.489</td>
+                <td class="is-number">0.432</td>
+                <td class="is-number">0.673</td>
+                <td class="is-number">0.361</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">24</td>
+                <td>InternVL3-8B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.484</td>
+                <td class="is-number">0.379</td>
+                <td class="is-number">0.707</td>
+                <td class="is-number">0.368</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">25</td>
+                <td>AIDC-AI/Ovis2-4B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.481</td>
+                <td class="is-number">0.369</td>
+                <td class="is-number">0.697</td>
+                <td class="is-number">0.379</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">26</td>
+                <td>Qwen3.5-27B</td>
+                <td>Qwen3.5</td>
+                <td class="is-number">0.478</td>
+                <td class="is-number">0.565</td>
+                <td class="is-number">0.465</td>
+                <td class="is-number">0.403</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">27</td>
+                <td>AIDC-AI/Ovis2-8B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.469</td>
+                <td class="is-number">0.394</td>
+                <td class="is-number">0.637</td>
+                <td class="is-number">0.376</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">28</td>
+                <td>AIDC-AI/Ovis2-16B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.468</td>
+                <td class="is-number">0.439</td>
+                <td class="is-number">0.590</td>
+                <td class="is-number">0.375</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">29</td>
+                <td>Sarashina2.2-Vision-3b</td>
+                <td>Sarashina2.2</td>
+                <td class="is-number">0.467</td>
+                <td class="is-number">0.467</td>
+                <td class="is-number">--</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">30</td>
+                <td>Qwen3-VL-2B-Instruct</td>
+                <td>Qwen3-VL</td>
+                <td class="is-number">0.464</td>
+                <td class="is-number">0.365</td>
+                <td class="is-number">0.737</td>
+                <td class="is-number">0.288</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">31</td>
+                <td>Qwen2-VL-7B-Instruct</td>
+                <td>Qwen2-VL</td>
+                <td class="is-number">0.462</td>
+                <td class="is-number">0.279</td>
+                <td class="is-number">0.711</td>
+                <td class="is-number">0.397</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">32</td>
+                <td>InternVL3.5-4B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.456</td>
+                <td class="is-number">0.339</td>
+                <td class="is-number">0.687</td>
+                <td class="is-number">0.342</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">33</td>
+                <td>AIDC-AI/Ovis2-34B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.450</td>
+                <td class="is-number">0.450</td>
+                <td class="is-number">0.540</td>
+                <td class="is-number">0.360</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">34</td>
+                <td>Gemma-4-E4B-it</td>
+                <td>google</td>
+                <td class="is-number">0.421</td>
+                <td class="is-number">0.308</td>
+                <td class="is-number">0.685</td>
+                <td class="is-number">0.270</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">35</td>
+                <td>Qwen3.5-2B</td>
+                <td>Qwen3.5</td>
+                <td class="is-number">0.418</td>
+                <td class="is-number">0.296</td>
+                <td class="is-number">0.714</td>
+                <td class="is-number">0.246</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">36</td>
+                <td>InternVL3.5-2B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.417</td>
+                <td class="is-number">0.262</td>
+                <td class="is-number">0.655</td>
+                <td class="is-number">0.335</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">37</td>
+                <td>Qwen2.5-VL-3B-Instruct</td>
+                <td>Qwen2.5-VL</td>
+                <td class="is-number">0.416</td>
+                <td class="is-number">0.231</td>
+                <td class="is-number">0.698</td>
+                <td class="is-number">0.319</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">38</td>
+                <td>moonshotai/Kimi-VL-A3B-Instruct</td>
+                <td>Kimi-VL</td>
+                <td class="is-number">0.409</td>
+                <td class="is-number">0.296</td>
+                <td class="is-number">0.527</td>
+                <td class="is-number">0.403</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">39</td>
+                <td>openbmb/MiniCPM-o-2_6</td>
+                <td>MiniCPM</td>
+                <td class="is-number">0.404</td>
+                <td class="is-number">0.319</td>
+                <td class="is-number">0.565</td>
+                <td class="is-number">0.327</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">40</td>
+                <td>AIDC-AI/Ovis2-2B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.402</td>
+                <td class="is-number">0.243</td>
+                <td class="is-number">0.625</td>
+                <td class="is-number">0.338</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">41</td>
+                <td>Gemma-3-27b-it</td>
+                <td>Gemma 3</td>
+                <td class="is-number">0.390</td>
+                <td class="is-number">0.403</td>
+                <td class="is-number">0.570</td>
+                <td class="is-number">0.198</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">42</td>
+                <td>mistralai/Mistral-Small-3.1-24B-Instruct-2503</td>
+                <td>mistralai</td>
+                <td class="is-number">0.385</td>
+                <td class="is-number">0.492</td>
+                <td class="is-number">0.366</td>
+                <td class="is-number">0.296</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">43</td>
+                <td>InternVL3-2B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.384</td>
+                <td class="is-number">0.197</td>
+                <td class="is-number">0.646</td>
+                <td class="is-number">0.309</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">44</td>
+                <td>Gemma-3-12b-it</td>
+                <td>Gemma 3</td>
+                <td class="is-number">0.380</td>
+                <td class="is-number">0.341</td>
+                <td class="is-number">0.582</td>
+                <td class="is-number">0.217</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">45</td>
+                <td>Qwen2-VL-2B-Instruct</td>
+                <td>Qwen2-VL</td>
+                <td class="is-number">0.376</td>
+                <td class="is-number">0.144</td>
+                <td class="is-number">0.675</td>
+                <td class="is-number">0.308</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">46</td>
+                <td>sbintuitions/sarashina2-vision-14b</td>
+                <td>Sarashina2</td>
+                <td class="is-number">0.365</td>
+                <td class="is-number">0.222</td>
+                <td class="is-number">0.635</td>
+                <td class="is-number">0.237</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">47</td>
+                <td>Gemma-4-E2B-it</td>
+                <td>google</td>
+                <td class="is-number">0.361</td>
+                <td class="is-number">0.203</td>
+                <td class="is-number">0.618</td>
+                <td class="is-number">0.262</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">48</td>
+                <td>InternVL3.5-1B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.358</td>
+                <td class="is-number">0.163</td>
+                <td class="is-number">0.613</td>
+                <td class="is-number">0.298</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">49</td>
+                <td>AIDC-AI/Ovis2-1B</td>
+                <td>Ovis2</td>
+                <td class="is-number">0.328</td>
+                <td class="is-number">0.166</td>
+                <td class="is-number">0.648</td>
+                <td class="is-number">0.169</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">50</td>
+                <td>InternVL3-1B</td>
+                <td>InternVL3</td>
+                <td class="is-number">0.327</td>
+                <td class="is-number">0.140</td>
+                <td class="is-number">0.623</td>
+                <td class="is-number">0.219</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">51</td>
+                <td>InternVL3.5-14B</td>
+                <td>InternVL3.5</td>
+                <td class="is-number">0.322</td>
+                <td class="is-number">0.322</td>
+                <td class="is-number">--</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">52</td>
+                <td>nvidia/nemotron-ocr-v2</td>
+                <td>nvidia</td>
+                <td class="is-number">0.318</td>
+                <td class="is-number">--</td>
+                <td class="is-number">0.318</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">53</td>
+                <td>Qwen3.5-4B</td>
+                <td>Qwen3.5</td>
+                <td class="is-number">0.299</td>
+                <td class="is-number">0.408</td>
+                <td class="is-number">0.115</td>
+                <td class="is-number">0.374</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">54</td>
+                <td>AIDC-AI/Ovis2.5-2B</td>
+                <td>Ovis2.5</td>
+                <td class="is-number">0.299</td>
+                <td class="is-number">0.354</td>
+                <td class="is-number">0.542</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">55</td>
+                <td>AIDC-AI/Ovis2.5-9B</td>
+                <td>Ovis2.5</td>
+                <td class="is-number">0.272</td>
+                <td class="is-number">0.458</td>
+                <td class="is-number">0.359</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">56</td>
+                <td>sbintuitions/sarashina2-vision-8b</td>
+                <td>Sarashina2</td>
+                <td class="is-number">0.262</td>
+                <td class="is-number">0.176</td>
+                <td class="is-number">0.503</td>
+                <td class="is-number">0.106</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">57</td>
+                <td>Gemma-3-4b-it</td>
+                <td>Gemma 3</td>
+                <td class="is-number">0.224</td>
+                <td class="is-number">0.173</td>
+                <td class="is-number">0.408</td>
+                <td class="is-number">0.090</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">58</td>
+                <td>InternVL2-8B</td>
+                <td>InternVL2</td>
+                <td class="is-number">0.222</td>
+                <td class="is-number">0.227</td>
+                <td class="is-number">0.152</td>
+                <td class="is-number">0.287</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">59</td>
+                <td>turing-motors/Heron-NVILA-Lite-15B</td>
+                <td>turing-motors</td>
+                <td class="is-number">0.197</td>
+                <td class="is-number">0.175</td>
+                <td class="is-number">0.324</td>
+                <td class="is-number">0.091</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">60</td>
+                <td>InternVL2-26B</td>
+                <td>InternVL2</td>
+                <td class="is-number">0.191</td>
+                <td class="is-number">0.173</td>
+                <td class="is-number">0.110</td>
+                <td class="is-number">0.292</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">61</td>
+                <td>CohereLabs/aya-vision-32b</td>
+                <td>Aya Vision</td>
+                <td class="is-number">0.187</td>
+                <td class="is-number">0.249</td>
+                <td class="is-number">0.152</td>
+                <td class="is-number">0.159</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">62</td>
+                <td>Phi-4-multimodal</td>
+                <td>Phi-4</td>
+                <td class="is-number">0.167</td>
+                <td class="is-number">0.167</td>
+                <td class="is-number">--</td>
+                <td class="is-number">--</td>
+                <td class="is-number">1</td>
+              </tr>
+              <tr>
+                <td class="is-number">63</td>
+                <td>allenai/Molmo2-8B</td>
+                <td>Molmo2</td>
+                <td class="is-number">0.145</td>
+                <td class="is-number">0.165</td>
+                <td class="is-number">0.062</td>
+                <td class="is-number">0.208</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">64</td>
+                <td>turing-motors/Heron-NVILA-Lite-2B</td>
+                <td>turing-motors</td>
+                <td class="is-number">0.127</td>
+                <td class="is-number">0.116</td>
+                <td class="is-number">0.223</td>
+                <td class="is-number">0.041</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">65</td>
+                <td>allenai/Molmo2-4B</td>
+                <td>Molmo2</td>
+                <td class="is-number">0.120</td>
+                <td class="is-number">0.134</td>
+                <td class="is-number">0.061</td>
+                <td class="is-number">0.167</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">66</td>
+                <td>CohereLabs/aya-vision-8b</td>
+                <td>Aya Vision</td>
+                <td class="is-number">0.120</td>
+                <td class="is-number">0.144</td>
+                <td class="is-number">0.101</td>
+                <td class="is-number">0.115</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">67</td>
+                <td>mistralai/Pixtral-12B-2409</td>
+                <td>mistralai</td>
+                <td class="is-number">0.094</td>
+                <td class="is-number">0.164</td>
+                <td class="is-number">0.030</td>
+                <td class="is-number">0.087</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">68</td>
+                <td>neulab/Pangea-7B-hf</td>
+                <td>Pangea</td>
+                <td class="is-number">0.090</td>
+                <td class="is-number">0.134</td>
+                <td class="is-number">0.021</td>
+                <td class="is-number">0.115</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">69</td>
+                <td>meta-llama/Llama-3.2-11B-Vision-Instruct</td>
+                <td>Llama 3.2 Vision</td>
+                <td class="is-number">0.080</td>
+                <td class="is-number">0.169</td>
+                <td class="is-number">0.065</td>
+                <td class="is-number">0.008</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">70</td>
+                <td>cyberagent/llava-calm2-siglip</td>
+                <td>cyberagent</td>
+                <td class="is-number">0.051</td>
+                <td class="is-number">0.110</td>
+                <td class="is-number">0.016</td>
+                <td class="is-number">0.027</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">71</td>
+                <td>llava-hf/llava-1.5-13b-hf</td>
+                <td>LLaVA 1.5</td>
+                <td class="is-number">0.029</td>
+                <td class="is-number">0.041</td>
+                <td class="is-number">0.047</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">72</td>
+                <td>llava-hf/llava-v1.6-mistral-7b-hf</td>
+                <td>LLaVA 1.6</td>
+                <td class="is-number">0.029</td>
+                <td class="is-number">0.043</td>
+                <td class="is-number">0.002</td>
+                <td class="is-number">0.043</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">73</td>
+                <td>stabilityai/japanese-stable-vlm</td>
+                <td>stabilityai</td>
+                <td class="is-number">0.029</td>
+                <td class="is-number">0.060</td>
+                <td class="is-number">0.027</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">74</td>
+                <td>llava-hf/llava-1.5-7b-hf</td>
+                <td>LLaVA 1.5</td>
+                <td class="is-number">0.028</td>
+                <td class="is-number">0.039</td>
+                <td class="is-number">0.046</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">75</td>
+                <td>stabilityai/japanese-instructblip-alpha</td>
+                <td>stabilityai</td>
+                <td class="is-number">0.016</td>
+                <td class="is-number">0.045</td>
+                <td class="is-number">0.002</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+              <tr>
+                <td class="is-number">76</td>
+                <td>MIL-UT/Asagi-14B</td>
+                <td>MIL-UT</td>
+                <td class="is-number">0.010</td>
+                <td class="is-number">0.015</td>
+                <td class="is-number">0.017</td>
+                <td class="is-number">0.000</td>
+                <td class="is-number">3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">
+          Machine-readable rows are available in
+          <a href="https://github.com/llm-jp/jawildtext/blob/main/results/extended_leaderboard_gptoss.json">extended_leaderboard_gptoss.json</a>.
+          The count of 68 complete rows means all three aggregate columns are available; it does not mean all three tasks were judged by gpt-oss.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <p>
+        JaWildText release materials are maintained in
+        <a href="https://github.com/llm-jp/jawildtext">llm-jp/jawildtext</a>.
+        The project-page layout is inspired by the
+        <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
