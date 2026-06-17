@@ -472,6 +472,36 @@ body {
   padding: 0.25rem 0 0.25rem 1rem;
 }
 
+.note-panel {
+  background: #fffaf0;
+  border: 1px solid #eadcc2;
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  margin-top: 1.5rem;
+  padding: 1.15rem 1.25rem;
+}
+
+.note-panel h3 {
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.note-panel p,
+.note-panel li {
+  color: #4f5f6b;
+}
+
+.note-list {
+  margin-left: 1.1rem;
+  margin-top: 0.75rem;
+}
+
+.note-list li + li {
+  margin-top: 0.7rem;
+}
+
 .footer {
   background: #101820;
   color: #dce5ec;

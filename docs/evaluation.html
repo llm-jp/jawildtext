@@ -4,36 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Evaluation protocol for JaWildText Dense STVQA, Handwriting OCR, and Receipt KIE tasks.">
-  <title>Evaluation | JaWildText</title>
+  <title>Evaluation Detail | JaWildText</title>
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/jawildtext.css">
 </head>
 <body>
-  <nav class="navbar is-white" aria-label="main navigation">
-    <div class="container">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./">JaWildText</a>
-      </div>
-      <div class="navbar-menu is-active">
-        <div class="navbar-end">
-          <a class="navbar-item" href="./#paper">Paper</a>
-          <a class="navbar-item" href="./#citation">Citation</a>
-          <a class="navbar-item" href="./#results">Results</a>
-          <a class="navbar-item" href="evaluation.html">Evaluation</a>
-          <a class="navbar-item" href="https://github.com/llm-jp/jawildtext">GitHub</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
   <main>
     <section class="hero publication-hero">
       <div class="hero-body">
-        <div class="container is-max-desktop">
-          <h1 class="publication-title">Evaluation</h1>
-          <p class="publication-subtitle">
-            JaWildText evaluates three Japanese scene-text understanding tasks from the Hugging Face dataset <code>llm-jp/jawildtext</code>.
-          </p>
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="publication-title">
+            <span class="publication-name">Evaluation Detail</span>
+            <span class="publication-title-detail">Protocols, prompts, and judge validation notes for JaWildText</span>
+          </h1>
+          <div class="publication-links">
+            <a class="button is-outline-jawild" href="./"><span class="emoji emoji-paper" aria-hidden="true"></span> Project Page</a>
+            <a class="button is-outline-jawild" href="https://github.com/llm-jp/jawildtext"><span class="emoji emoji-code" aria-hidden="true"></span> GitHub</a>
+            <a class="button is-outline-jawild" href="https://huggingface.co/datasets/llm-jp/jawildtext"><span class="emoji emoji-hf" aria-hidden="true"></span> HF Dataset</a>
+          </div>
         </div>
       </div>
     </section>
@@ -64,6 +52,31 @@
         <p>or</p>
         <pre class="protocol-block"><code>correct: no</code></pre>
         <p>The Dense STVQA score is binary judge accuracy.</p>
+
+        <aside class="note-panel" aria-label="Judge validation note">
+          <h3>Note: Judge Validation</h3>
+          <p>
+            The following supplementary checks are included on this evaluation page to make the
+            public protocol easier to interpret. They are implementation and validation notes for
+            the released evaluation artifacts, not additional claims from the main paper text.
+          </p>
+          <ul class="note-list">
+            <li>
+              <strong>Human agreement.</strong> We validated that the LLM-as-a-Judge setting aligns
+              with human assessment. A human annotator re-scored 200 Dense STVQA predictions with
+              GPT-5.1 verdicts hidden. Agreement was high: Cohen's &kappa; = 0.927 and raw
+              agreement = 97.0%.
+            </li>
+            <li>
+              <strong>Open-weight judge.</strong> To avoid depending only on GPT-5.1 availability, we
+              re-judged all 14,350 Dense STVQA predictions with the open-weight
+              <code>gpt-oss-20b</code> judge. Its verdicts strongly agree with GPT-5.1
+              (Cohen's &kappa; = 0.891) and preserve model ordering (Spearman's &rho; = 0.987).
+              The public default judge is <code>gpt-oss-20b</code>, with GPT-5.1 kept as a reference.
+              Judge prompts, task prompts, and evaluation code are released with the artifacts.
+            </li>
+          </ul>
+        </aside>
       </div>
     </section>
 
